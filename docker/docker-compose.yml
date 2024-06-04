@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+    nginx:
+        container_name: "${APP_NAME:-pzadmin}_nginx"
+        build: ./nginx
+        ports:
+            - "${APP_HTTP:-80}:80"
+            - "${APP_HTTPS:-433}:433"
+        networks:
+            - backend
+        links:
+            - fpm
+        volumes:
+            - ./../:/var/www/html
+            - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./nginx/config/sites-available/:/etc/nginx/sites-available/
+            - ./nginx/config/sites-enabled/:/etc/nginx/sites-enabled/
+            - ./nginx/config/nginxconfig.io/:/etc/nginx/nginxconfig.io/
+            - ./nginx/logs/:/var/log/nginx/
+
+    fpm:
+        container_name: "${APP_NAME:-pzadmin}_fpm"
+        build: ./fpm
+        networks:
+            - backend
+        environment:
+            - XDEBUG:${FPM_XDEBUG:-false}
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ./../:/var/www/html
+            - ./fpm/config/www.conf:/usr/local/etc/php-fom.d/www.conf
+            - ./fpm/logs/fpm-php.www.log:/var/log/fpm-php.www.log:ro
+
+    zomboid:
+        container_name: "${APP_NAME:-pzadmin}_zomboid"
+        restart: unless-stopped
+        build: ./zomboid
+        env_file:
+            - .env
+        ports:
+            - "${ZOMBOID_PORT_1}:16261"
+            - "${ZOMBOID_PORT_2}:16262"
+            - "${ZOMBOID_RCON_PORT}:27015"
+        volumes:
+            # Server data
+            - ./zomboid/storage/data:/home/steam/Zomboid
+            # Workshop mods folder
+            - ./zomboid/storage/workshop-mods:/home/steam/pz-dedicated/steamapps/workshop
+
+networks:
+    backend:
+        driver: bridge
