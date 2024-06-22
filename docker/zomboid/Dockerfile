@@ -1,4 +1,4 @@
-FROM cm2network/steamcmd:root
+FROM steamcmd/steamcmd:latest
 
 LABEL maintainer="daniel.carrasco@electrosoftcloud.com"
 
@@ -15,10 +15,9 @@ RUN apt-get update \
 
 # Download the Project Zomboid dedicated server app using the steamcmd app
 # Set the entry point file permissions
-RUN set -x \
-  && mkdir -p "${STEAMAPPDIR}" \
+RUN mkdir -p "${STEAMAPPDIR}" \
   && chown -R "${USER}:${USER}" "${STEAMAPPDIR}" \
-  && bash "${STEAMCMDDIR}/steamcmd.sh" +force_install_dir "${STEAMAPPDIR}" \
+  && steamcmd +force_install_dir "${STEAMAPPDIR}" \
                                     +login anonymous \
                                     +app_update "${STEAMAPPID}" validate \
                                     +quit

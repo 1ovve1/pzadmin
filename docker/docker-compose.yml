@@ -24,13 +24,39 @@ services:
         build: ./fpm
         networks:
             - backend
-        environment:
-            - XDEBUG:${FPM_XDEBUG:-false}
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - ./../:/var/www/html
             - ./fpm/config/www.conf:/usr/local/etc/php-fom.d/www.conf
             - ./fpm/logs/fpm-php.www.log:/var/log/fpm-php.www.log:ro
+
+    php:
+        container_name: "${APP_NAME:-pzadmin}_php"
+        build: ./php
+        volumes:
+            - ./../:/var/www/html
+
+    php-setup:
+        container_name: "${APP_NAME:-pzadmin}_php-setup"
+        build: ./php
+        depends_on:
+            - php
+        restart: "no"
+        entrypoint: ["bash", "/root/scripts/setup.sh"]
+        volumes:
+            - ./../:/var/www/html
+
+    php-vite-dev:
+        container_name: "${APP_NAME:-pzadmin}_php-vite-dev"
+        build: ./php
+        ports:
+            - "5173:5173"
+        depends_on:
+            - php-setup
+        restart: "always"
+        entrypoint: [ "bash", "/root/scripts/vite_dev.sh", "-d", "${APP_VITE_DEV}"]
+        volumes:
+            - ./../:/var/www/html
 
     zomboid:
         container_name: "${APP_NAME:-pzadmin}_zomboid"
@@ -39,14 +65,14 @@ services:
         env_file:
             - .env
         ports:
-            - "${ZOMBOID_PORT_1}:16261"
-            - "${ZOMBOID_PORT_2}:16262"
+            - "${ZOMBOID_PORT_1}:16261/udp"
+            - "${ZOMBOID_PORT_2}:16262/udp"
             - "${ZOMBOID_RCON_PORT}:27015"
         volumes:
             # Server data
-            - ./zomboid/storage/data:/home/steam/Zomboid
+            - ./zomboid/storage/data:/root/Zomboid
             # Workshop mods folder
-            - ./zomboid/storage/workshop-mods:/home/steam/pz-dedicated/steamapps/workshop
+            - ./zomboid/storage/workshop-mods:/pz-dedicated/steamapps/workshop
 
 networks:
     backend:
