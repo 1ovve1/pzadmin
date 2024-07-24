@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'JustMeAgainDownHere';
+    src: url('/resources/fonts/JustMeAgainDownHere-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
