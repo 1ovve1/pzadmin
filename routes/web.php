@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('Welcome', ['server' => [...config('zomboid.servers')[config('zomboid.driver')], 'survivors' => [ 'count' => 0 ]]]);
 });
 
 Route::get('/dashboard', function () {

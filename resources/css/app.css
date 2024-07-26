@@ -9,3 +9,30 @@
     font-weight: normal;
     font-style: normal;
 }
+
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+#app {
+    height: 100%;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+.title {
+    font-size: 36px;
+}
+
+.title--large {
+    font-size: 48px;
+}
