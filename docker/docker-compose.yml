@@ -25,7 +25,7 @@ services:
         networks:
             - backend
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
+            - /var/run/docker.sock:/var/run/docker.sock:www-data
             - ./../:/var/www/html
             - ./fpm/config/www.conf:/usr/local/etc/php-fom.d/www.conf
             - ./fpm/logs/fpm-php.www.log:/var/log/fpm-php.www.log:ro

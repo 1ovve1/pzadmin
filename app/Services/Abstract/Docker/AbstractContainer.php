@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Abstract\Docker;
+
+use App\Services\Abstract\Docker\Types\ContainerActionEnum;
+use App\Services\Abstract\Docker\Types\ContainerStatusEnum;
+use Lowel\Docker\ClientResponseHandlerInterface as DockerClientResponseHandlerInterface;
+use Psr\Http\Client\ClientExceptionInterface;
+
+abstract readonly class AbstractContainer implements ContainerInterface
+{
+    public function __construct(
+        protected DockerClientResponseHandlerInterface $dockerClientResponseHandler,
+        protected string $containerId,
+    ) {
+    }
+
+    public function status(): ContainerStatusEnum
+    {
+        try {
+           $containerData = $this->dockerClientResponseHandler->containerInspect($this->containerId);
+        } catch (ClientExceptionInterface $e) {
+            return ContainerStatusEnum::ERROR;
+        }
+
+        if ($containerData->isRestarting()) {
+            return ContainerStatusEnum::RESTARTING;
+        } elseif ($containerData->isPaused()) {
+            return ContainerStatusEnum::PAUSED;
+        } elseif ($containerData->isDead() || $containerData->isStopped()) {
+            return ContainerStatusEnum::DOWN;
+        } elseif ($containerData->isRunning()) {
+            return ContainerStatusEnum::ACTIVE;
+        } else {
+            return ContainerStatusEnum::ERROR;
+        }
+    }
+
+    public function operate(ContainerActionEnum $action): ContainerResponseInterface
+    {
+        $result = match ($action) {
+            ContainerActionEnum::UP => $this->dockerClientResponseHandler->containerStart($this->containerId),
+            ContainerActionEnum::DOWN => $this->dockerClientResponseHandler->containerStop($this->containerId),
+            ContainerActionEnum::RESTART => $this->dockerClientResponseHandler->containerRestart($this->containerId)
+        };
+
+        return new ContainerResponse($result);
+    }
+}

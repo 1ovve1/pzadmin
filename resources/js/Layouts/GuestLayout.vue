@@ -1,6 +1,21 @@
 <script setup lang="ts">
-
 import Image from "@/Components/Image.vue";
+import {computed, onMounted, reactive, ref} from "vue";
+import axios from "axios";
+
+const server = reactive({
+    status: '...'
+})
+
+
+const getServerStatus = () => {
+    return axios.get('/api/v1/servers/zomboid')
+}
+
+onMounted(() => {
+    setInterval(() => getServerStatus().then(({data}) => server.status = data.status), 2000)
+})
+
 </script>
 
 <template>
@@ -11,7 +26,7 @@ import Image from "@/Components/Image.vue";
                 <p class="text-5xl mb-4 ml-1">SERVER</p>
             </div>
             <div class="flex flex-row justify-center mt-8">
-                <h1 class="text-4xl lg:text-5xl">STATUS: ACTIVE</h1>
+                <h1 class="text-4xl lg:text-5xl uppercase">STATUS: {{ server.status }}</h1>
             </div>
         </header>
         <main>
@@ -19,7 +34,7 @@ import Image from "@/Components/Image.vue";
         </main>
         <footer>
         </footer>
-    </div>
+    </div>d
 </template>
 
 <style scoped>

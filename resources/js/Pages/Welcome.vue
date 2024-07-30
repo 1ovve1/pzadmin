@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import GuestLayout from "@/Layouts/GuestLayout.vue";
+import {Server, ServerInterface} from "@/classes/Server/Server";
+import {Survivor} from "@/classes/Server/Survivor";
+import {SurvivorsList} from "@/classes/Server/SurvivorsListInterface";
 
-const props = defineProps({
-    server: {type: Object, default: {ip: 'none', port: 'none', survivors: { count: 0, list: [{ name: 'lowel' }]}}}
-});
+interface Props {
+    server: ServerInterface;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    server: () => new Server('none', 'none`', new SurvivorsList([new Survivor('lower')]))
+})
 
 </script>
 
