@@ -7,7 +7,7 @@ namespace App\Services\Abstract\Docker;
 use App\Services\Abstract\Docker\Types\ContainerActionEnum;
 use App\Services\Abstract\Docker\Types\ContainerStatusEnum;
 use Lowel\Docker\ClientResponseHandlerInterface as DockerClientResponseHandlerInterface;
-use Psr\Http\Client\ClientExceptionInterface;
+use Lowel\Docker\Exceptions\ContainerNotFoundException;
 
 abstract readonly class AbstractContainer implements ContainerInterface
 {
@@ -21,8 +21,8 @@ abstract readonly class AbstractContainer implements ContainerInterface
     {
         try {
            $containerData = $this->dockerClientResponseHandler->containerInspect($this->containerId);
-        } catch (ClientExceptionInterface $e) {
-            return ContainerStatusEnum::ERROR;
+        } catch (ContainerNotFoundException) {
+            return ContainerStatusEnum::DOWN;
         }
 
         if ($containerData->isRestarting()) {

@@ -10,3 +10,6 @@ RUN docker-php-ext-enable xdebug redis
 RUN touch /var/log/fpm-php.www.log && chmod 666 /var/log/fpm-php.www.log
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+
+CMD /bin/sh -c "ulimit -Sn 10000 && ulimit -Hn 50000 && screen -dmS events bash -c 'php artisan queue:work' && screen -dmS jobs bash -c 'php artisan schedule:work' && php-fpm"

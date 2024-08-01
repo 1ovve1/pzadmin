@@ -7,6 +7,7 @@ namespace App\Services\Zomboid;
 use App\Services\Abstract\AbstractService;
 use App\Services\Abstract\Docker\Types\ContainerActionEnum;
 use App\Services\Zomboid\Docker\ZomboidDockerContainer;
+use Lowel\Docker\ClientFactory as DockerClientFactory;
 
 class ZomboidService extends AbstractService implements ZomboidServiceInterface
 {
@@ -42,6 +43,4 @@ class ZomboidService extends AbstractService implements ZomboidServiceInterface
 
         return $result->isOk();
     }
-
-
 }

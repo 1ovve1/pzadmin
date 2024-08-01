@@ -12,8 +12,16 @@ const getServerStatus = () => {
     return axios.get('/api/v1/servers/zomboid')
 }
 
+
 onMounted(() => {
-    setInterval(() => getServerStatus().then(({data}) => server.status = data.status), 2000)
+    getServerStatus().then(({data}) => {
+        server.status = data.status
+    });
+
+    window.Echo.channel('servers.zomboid')
+        .listen('.status', (data: any) => {
+            server.status = data.status
+        });
 })
 
 </script>

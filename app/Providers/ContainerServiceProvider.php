@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Services\Abstract\ServiceFactoryInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -34,6 +35,7 @@ class ContainerServiceProvider extends ServiceProvider
     public function bindService(string $serviceInterface): void
     {
         $serviceFactoryClassName = str_replace("Interface", "Factory", $serviceInterface);
+        /** @var ServiceFactoryInterface $serviceFactory */
         $serviceFactory = new $serviceFactoryClassName();
 
         $this->app->bind($serviceInterface, fn() => $serviceFactory->get());

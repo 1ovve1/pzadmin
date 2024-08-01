@@ -11,6 +11,6 @@ export class SurvivorsList {
 
     constructor(survivors: SurvivorInterface[]) {
         this.list = survivors
-        this.count = survivors.count
+        this.count = survivors.length
     }
 }
