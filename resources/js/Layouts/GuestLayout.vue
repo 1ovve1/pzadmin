@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import Image from "@/Components/Image.vue";
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
 import axios from "axios";
+import {ChannelProxy} from "@/classes/Events/ChannelProxy";
+import {Event} from "@/classes/Events/Event";
 
 const server = reactive({
     status: '...'
 })
 
+const channelProxy = new ChannelProxy('servers.zomboid');
 
 const getServerStatus = () => {
     return axios.get('/api/v1/servers/zomboid')
@@ -18,10 +21,13 @@ onMounted(() => {
         server.status = data.status
     });
 
-    window.Echo.channel('servers.zomboid')
-        .listen('.status', (data: any) => {
-            server.status = data.status
-        });
+    channelProxy.addEvent(new Event('.status', (data: any) => {
+        server.status = data.status;
+    }));
+})
+
+onUnmounted(() => {
+    channelProxy.destroy();
 })
 
 </script>
