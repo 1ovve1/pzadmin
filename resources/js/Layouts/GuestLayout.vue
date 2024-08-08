@@ -1,54 +1,42 @@
 <script setup lang="ts">
 import Image from "@/Components/Image.vue";
-import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
-import axios from "axios";
-import {ChannelProxy} from "@/classes/Events/ChannelProxy";
-import {Event} from "@/classes/Events/Event";
+import {watch} from "vue";
+import {ElLoading} from "element-plus";
 
-const server = reactive({
-    status: '...'
-})
+const props = defineProps({
+    status: { type: String, default: '...' },
+    loading: { type: Boolean, default: false},
+});
 
-const channelProxy = new ChannelProxy('servers.zomboid');
+const loadingInstance = ElLoading.service({ fullscreen: true, background: "black" });
 
-const getServerStatus = () => {
-    return axios.get('/api/v1/servers/zomboid')
-}
-
-
-onMounted(() => {
-    getServerStatus().then(({data}) => {
-        server.status = data.status
-    });
-
-    channelProxy.addEvent(new Event('.status', (data: any) => {
-        server.status = data.status;
-    }));
-})
-
-onUnmounted(() => {
-    channelProxy.destroy();
-})
+watch(() => props.loading, (newValue: boolean, oldValue: boolean) => {
+    if (!newValue) {
+        loadingInstance.close();
+    }
+});
 
 </script>
 
 <template>
     <div class="wrapper">
-        <header class="flex flex-col lg:flex-row lg:justify-between m-6 lg:mt-8">
-            <div class="flex flex-row justify-center items-end">
-                <Image relative-path="zomboid-logo.png" width="150px" height="100px" alt="zomboid-logo"></Image>
-                <p class="text-5xl mb-4 ml-1">SERVER</p>
-            </div>
-            <div class="flex flex-row justify-center mt-8">
-                <h1 class="text-4xl lg:text-5xl uppercase">STATUS: {{ server.status }}</h1>
-            </div>
-        </header>
-        <main>
-            <slot />
-        </main>
-        <footer>
-        </footer>
-    </div>d
+        <div v-if="!loading">
+            <header class="flex flex-col lg:flex-row lg:justify-between m-6 lg:mt-8">
+                <div class="flex flex-row justify-center items-end">
+                    <Image relative-path="zomboid-logo.png" width="150px" height="100px" alt="zomboid-logo"></Image>
+                    <p class="text-5xl mb-4 ml-1">SERVER</p>
+                </div>
+                <div class="flex flex-row justify-center mt-8">
+                    <h1 class="text-4xl lg:text-5xl uppercase">STATUS: {{ props.status }}</h1>
+                </div>
+            </header>
+            <main>
+                <slot />
+            </main>
+            <footer>
+            </footer>
+        </div>
+    </div>
 </template>
 
 <style scoped>

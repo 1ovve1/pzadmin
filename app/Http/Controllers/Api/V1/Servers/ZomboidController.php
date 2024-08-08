@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Servers;
 
+use App\Enums\ServerEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\Servers\Zomboid\ZomboidServerResource;
+use App\Models\Server;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ZomboidController extends Controller
 {
@@ -16,9 +20,11 @@ class ZomboidController extends Controller
     {
     }
 
-    public function index(): JsonResponse
+    public function index(): JsonResource
     {
-        return response()->json(['status' => $this->zomboidService->getsStatus()]);
+        $server = Server::server(ServerEnum::ZOMBOID)->first();
+
+        return ZomboidServerResource::make($server);
     }
 
     public function start(): JsonResponse

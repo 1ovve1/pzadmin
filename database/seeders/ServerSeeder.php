@@ -13,10 +13,6 @@ class ServerSeeder extends Seeder
      */
     public function run(): void
     {
-        foreach (ServerEnum::cases() as $serverEnum) {
-            if (Server::server($serverEnum)->doesntExist()) {
-                (new Server(['name' => $serverEnum->name(), 'status' => 'none']))->save();
-            }
-        }
+        Server::server(ServerEnum::ZOMBOID)->firstOr(callback: fn() => Server::factory()->create());
     }
 }

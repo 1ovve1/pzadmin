@@ -16,15 +16,6 @@ class WelcomeController extends Controller
 
     public function index(): Response
     {
-        $credentials = config('zomboid.servers')[config('zomboid.driver')];
-
-        return Inertia::render('Welcome', [
-            'server' => [
-                ...$credentials,
-                'survivors' => [
-                    'count' => 0
-                ]
-            ]
-        ]);
+        return Inertia::render('Welcome');
     }
 }

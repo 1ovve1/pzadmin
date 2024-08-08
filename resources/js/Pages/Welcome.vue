@@ -1,42 +1,53 @@
 <script setup lang="ts">
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import {Server, ServerInterface} from "@/classes/Server/Server";
-import {Survivor} from "@/classes/Server/Survivor";
-import {SurvivorsList} from "@/classes/Server/SurvivorsListInterface";
+import {useServerStore} from "@/store/server";
+import {onMounted, onUnmounted, ref} from "vue";
+import {ChannelProxy} from "@/classes/Events/ChannelProxy";
+import {Event} from "@/classes/Events/Event";
 
-interface Props {
-    server: ServerInterface;
-}
+const server = useServerStore();
+const channelProxy = new ChannelProxy('servers.zomboid');
+const loading = ref(true);
 
-const props = withDefaults(defineProps<Props>(), {
-    server: () => new Server('none', 'none`', new SurvivorsList([new Survivor('lower')]))
+onMounted(() => {
+    server.fetch().then(() => {
+        channelProxy.addEvent(new Event('.status', (handler: any) => {
+            server.setStatus(handler.status);
+        }));
+
+        loading.value = false;
+    });
+});
+
+onUnmounted(() => {
+    channelProxy.destroy();
 })
 
 </script>
 
 <template>
-<GuestLayout>
+<GuestLayout :status="server.status" :loading="loading">
     <div class="wrapper">
         <ul class="flex flex-col mt-20">
             <li class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
                 <p>IP</p>
                 <span class="mr-3">:</span>
-                <p>{{ props.server.ip }}</p>
+                <p>{{ server.ip }}</p>
             </li>
             <li class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
                 <p>PORT</p>
                 <span class="mr-3">:</span>
-                <p>{{ props.server.port }}</p>
+                <p>{{ server.port }}</p>
             </li>
             <li class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
                 <p>TOTAL SURVIVORS</p>
                 <span class="mr-3">:</span>
-                <p>{{ props.server.survivors.count }}</p>
+                <p>{{ server.playersCount }}</p>
             </li>
         </ul>
 
         <ul class="flex flex-col mt-20">
-            <li v-for="(player,index) in props.server.survivors.list" class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
+            <li v-for="(player,index) in server.players.list" class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
                 <p>{{ index + 1 }}</p>
                 <span class="mr-3">.</span>
                 <p>{{ player?.name ?? 'none' }}</p>
@@ -46,6 +57,6 @@ const props = withDefaults(defineProps<Props>(), {
 </GuestLayout>
 </template>
 
-<style scoped>
+<style>
 
 </style>
