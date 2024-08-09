@@ -10,6 +10,6 @@ enum ServerEnum: string
 
     public function name(): string
     {
-        return config('app.name') . '_' . $this->value;
+        return config('app.name').'_'.$this->value;
     }
 }

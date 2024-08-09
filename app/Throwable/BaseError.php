@@ -6,7 +6,4 @@ namespace App\Throwable;
 
 use Error;
 
-class BaseError extends Error
-{
-
-}
+class BaseError extends Error {}

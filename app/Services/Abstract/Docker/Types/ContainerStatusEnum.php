@@ -6,12 +6,12 @@ namespace App\Services\Abstract\Docker\Types;
 
 enum ContainerStatusEnum: string
 {
-    case ACTIVE = "active";
-    case DOWN = "down";
-    case PENDING = "pending";
-    case RESTARTING = "restarting";
-    case PAUSED = "paused";
-    case ERROR = "error";
+    case ACTIVE = 'active';
+    case DOWN = 'down';
+    case PENDING = 'pending';
+    case RESTARTING = 'restarting';
+    case PAUSED = 'paused';
+    case ERROR = 'error';
 
     public function isActive(): bool
     {

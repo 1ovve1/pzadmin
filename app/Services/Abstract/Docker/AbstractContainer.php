@@ -14,13 +14,12 @@ abstract readonly class AbstractContainer implements ContainerInterface
     public function __construct(
         protected DockerClientResponseHandlerInterface $dockerClientResponseHandler,
         protected string $containerId,
-    ) {
-    }
+    ) {}
 
     public function status(): ContainerStatusEnum
     {
         try {
-           $containerData = $this->dockerClientResponseHandler->containerInspect($this->containerId);
+            $containerData = $this->dockerClientResponseHandler->containerInspect($this->containerId);
         } catch (ContainerNotFoundException) {
             return ContainerStatusEnum::DOWN;
         }

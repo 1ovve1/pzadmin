@@ -7,15 +7,12 @@ use App\Services\Zomboid\ZomboidServiceInterface;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use function broadcast;
 
 readonly class ZomboidServerStatusHandlerMiddleware
 {
     public function __construct(
         private ZomboidServiceInterface $zomboidService
-    ) {
-
-    }
+    ) {}
 
     /**
      * Handle an incoming request.

@@ -13,6 +13,6 @@ class ServerSeeder extends Seeder
      */
     public function run(): void
     {
-        Server::server(ServerEnum::ZOMBOID)->firstOr(callback: fn() => Server::factory()->create());
+        Server::server(ServerEnum::ZOMBOID)->firstOr(callback: fn () => Server::factory()->create());
     }
 }

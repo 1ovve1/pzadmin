@@ -9,5 +9,5 @@ interface ServiceFactoryInterface
     /**
      * Return service instance
      */
-    public function get(): Object;
+    public function get(): object;
 }

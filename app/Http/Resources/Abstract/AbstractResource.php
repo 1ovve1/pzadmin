@@ -6,7 +6,4 @@ namespace App\Http\Resources\Abstract;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-abstract class AbstractResource extends JsonResource
-{
-
-}
+abstract class AbstractResource extends JsonResource {}

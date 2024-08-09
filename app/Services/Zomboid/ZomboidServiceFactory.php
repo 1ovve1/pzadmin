@@ -13,7 +13,7 @@ class ZomboidServiceFactory implements ServiceFactoryInterface
 {
     public function get(): ZomboidServiceInterface
     {
-        $dockerClientFactory = new DockerClientFactory();
+        $dockerClientFactory = new DockerClientFactory;
 
         return new ZomboidService(
             new ZomboidDockerContainer($dockerClientFactory->getClientWithHandler(), ServerEnum::ZOMBOID->name())

@@ -24,8 +24,8 @@ class ZomboidServerResource extends AbstractResource
             'port' => config('zomboid.port'),
             'status' => $this->status,
             'players' => [
-                'list' => PlayersResource::collection($this->players)
-            ]
+                'list' => PlayersResource::collection($this->players),
+            ],
         ];
     }
 }

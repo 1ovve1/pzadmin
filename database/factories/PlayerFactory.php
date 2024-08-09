@@ -13,7 +13,7 @@ class PlayerFactory extends Factory
     public function definition(): array
     {
         $server = Server::server(ServerEnum::ZOMBOID)->firstOr(
-            callback: fn() => Server::factory()->create()
+            callback: fn () => Server::factory()->create()
         );
 
         return [

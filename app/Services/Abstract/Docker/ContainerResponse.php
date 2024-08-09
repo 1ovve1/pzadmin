@@ -8,8 +8,7 @@ readonly class ContainerResponse implements ContainerResponseInterface
 {
     public function __construct(
         private bool $result
-    ) {
-    }
+    ) {}
 
     public function isOk(): bool
     {

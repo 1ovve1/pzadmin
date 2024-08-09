@@ -6,7 +6,4 @@ namespace App\Throwable\Exceptions;
 
 use App\Throwable\BaseException;
 
-class ContainerOperationException extends BaseException
-{
-
-}
+class ContainerOperationException extends BaseException {}

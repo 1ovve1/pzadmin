@@ -16,9 +16,7 @@ class ZomboidController extends Controller
 {
     public function __construct(
         readonly private ZomboidServiceInterface $zomboidService
-    )
-    {
-    }
+    ) {}
 
     public function index(): JsonResource
     {

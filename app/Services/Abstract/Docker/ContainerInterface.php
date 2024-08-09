@@ -15,16 +15,12 @@ interface ContainerInterface
 {
     /**
      * Get status
-     *
-     * @return ContainerStatusEnum
      */
     public function status(): ContainerStatusEnum;
 
     /**
      * Do some actions like up, down or restart container
      *
-     * @param ContainerActionEnum $action
-     * @return ContainerResponseInterface
      * @throws ContainerOperationException
      */
     public function operate(ContainerActionEnum $action): ContainerResponseInterface;

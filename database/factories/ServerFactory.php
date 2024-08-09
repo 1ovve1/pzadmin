@@ -15,5 +15,4 @@ class ServerFactory extends Factory
             'name' => ServerEnum::ZOMBOID->name(),
         ];
     }
-
 }

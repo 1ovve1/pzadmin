@@ -13,7 +13,7 @@ class StatusEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    readonly private ?ContainerStatusEnum $enum;
+    private readonly ?ContainerStatusEnum $enum;
 
     /**
      * Create a new event instance.
@@ -46,7 +46,7 @@ class StatusEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'status' => $this->enum?->value
+            'status' => $this->enum?->value,
         ];
     }
 }
