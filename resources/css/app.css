@@ -27,12 +27,22 @@ body {
 
 * {
     box-sizing: inherit;
+
+    font-family: 'JustMeAgainDownHere',serif;
 }
 
-.title {
-    font-size: 36px;
+.wrapper {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
-.title--large {
-    font-size: 48px;
+.darkMode {
+    background-color: rgba(2, 1, 1, 1);
+    color: white;
+}
+
+.whiteMode {
+    background-color: lightgray;
+    color: rgba(2, 1, 1, 1);
 }

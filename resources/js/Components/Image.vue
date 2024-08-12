@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {computed, reactive} from 'vue';
 
 const props = defineProps({
     relativePath: { type: String, required: true },
@@ -7,7 +8,7 @@ const props = defineProps({
     alt: { type: String, default: "image"}
 })
 
-const imagePath = new URL('./../../images/' + props.relativePath, import.meta.url).href
+const imagePath = computed(() => (new URL('./../../images/' + props.relativePath, import.meta.url)).href);
 
 </script>
 

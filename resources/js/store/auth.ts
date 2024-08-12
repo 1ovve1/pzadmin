@@ -12,7 +12,8 @@ export const useAuthStore = defineStore('auth', {
         setType(type: string): void {
             this.type = type;
         }
-    }
+    },
+    persist: true,
 });
 
 
