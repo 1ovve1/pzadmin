@@ -20,4 +20,4 @@ do
   touch "$subject" && chmod 666 "$subject"
 done
 
-docker compose --env-file="$WORKDIR"/.env -f "$WORKDIR"/docker-compose.yml up --build
+docker compose --env-file="$WORKDIR"/.env --env-file="$WORKDIR"/../.env -f "$WORKDIR"/docker-compose.yml up --build
