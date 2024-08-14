@@ -23,7 +23,12 @@ export default {
     servers: {
         zomboid: {
             index: async <T>(): Promise<T> => {
-                return apiClient.get('/servers/zomboid').then(({ data }) => data.data);
+                return apiClient.get('/zomboid').then(({ data }) => data);
+            },
+            players: {
+                index: async <T>(): Promise<T> => {
+                    return apiClient.get('/zomboid/players').then(({ data }) => data);
+                }
             }
         }
     }

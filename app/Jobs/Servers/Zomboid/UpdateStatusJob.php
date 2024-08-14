@@ -2,9 +2,8 @@
 
 namespace App\Jobs\Servers\Zomboid;
 
-use App\Enums\ServerEnum;
+use App\Data\ServerData;
 use App\Events\Servers\Zomboid\StatusEvent as ZomboidStatusEvent;
-use App\Models\Server;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -24,15 +23,9 @@ class UpdateStatusJob implements ShouldQueue
     {
         $zomboidService = $this->getZomboidService();
 
-        $serverStatus = $zomboidService->getsStatus();
-        $serverStatusDatabaseLog = Server::server(ServerEnum::ZOMBOID)->first();
-
-        if ($serverStatusDatabaseLog->status !== $serverStatus) {
-
-            ZomboidStatusEvent::dispatch($serverStatus);
-
-            $serverStatusDatabaseLog->update(['status' => $serverStatus]);
-        }
+        $zomboidService->updateStatus(
+            fn (ServerData $serverData) => event(new ZomboidStatusEvent($serverData->status))
+        );
     }
 
     private function getZomboidService(): ZomboidServiceInterface

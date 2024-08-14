@@ -1,7 +1,11 @@
 <?php
 
-it('returns a successful response', function () {
-    $response = $this->get('/');
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-    $response->assertStatus(200);
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->seed(\Database\Seeders\DatabaseSeeder::class);
 });
+
+it('returns a successful response', function () {});

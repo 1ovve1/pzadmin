@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Abstract\Docker;
 
-use App\Services\Abstract\Docker\Types\ContainerActionEnum;
-use App\Services\Abstract\Docker\Types\ContainerStatusEnum;
+use App\Enums\Docker\ContainerActionEnum;
+use App\Enums\Docker\ContainerStatusEnum;
 use Lowel\Docker\ClientResponseHandlerInterface as DockerClientResponseHandlerInterface;
 use Lowel\Docker\Exceptions\ContainerNotFoundException;
 

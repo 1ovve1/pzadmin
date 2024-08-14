@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Docker\ContainerStatusEnum;
 use App\Enums\ServerEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,6 +29,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player> $players
  * @property-read int|null $players_count
+ * @property string $prefix
+ *
+ * @method static Builder|Server wherePrefix($value)
  *
  * @mixin \Eloquent
  */
@@ -36,8 +40,16 @@ class Server extends Model
     use HasFactory;
 
     protected $fillable = [
+        'prefix',
         'name',
         'status',
+    ];
+
+    protected $casts = [
+        'name' => ServerEnum::class,
+        'status' => ContainerStatusEnum::class,
+        'created_at' => 'immutable_datetime',
+        'updated_at' => 'immutable_datetime',
     ];
 
     /**
@@ -45,7 +57,7 @@ class Server extends Model
      */
     public static function server(ServerEnum $enum): Builder
     {
-        return Server::query()->where('name', $enum->name());
+        return Server::where('prefix', config('app.name'))->where('name', $enum->value);
     }
 
     public function players(): HasMany

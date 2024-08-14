@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1\Servers;
+namespace App\Http\Controllers\Api\V1\Zomboid;
 
-use App\Enums\ServerEnum;
+use App\Data\ServerData;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\Servers\Zomboid\ZomboidServerResource;
-use App\Models\Server;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 class ZomboidController extends Controller
 {
@@ -18,11 +15,9 @@ class ZomboidController extends Controller
         readonly private ZomboidServiceInterface $zomboidService
     ) {}
 
-    public function index(): JsonResource
+    public function index(): ServerData
     {
-        $server = Server::server(ServerEnum::ZOMBOID)->first();
-
-        return ZomboidServerResource::make($server);
+        return $this->zomboidService->getServer();
     }
 
     public function start(): JsonResponse

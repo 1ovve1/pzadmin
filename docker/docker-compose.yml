@@ -14,6 +14,7 @@ services:
             - backend
         links:
             - fpm
+            - php-inertia
             - php-laravel-reverb
             - php-vite-dev
         volumes:

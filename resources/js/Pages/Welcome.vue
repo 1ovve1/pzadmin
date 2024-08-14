@@ -4,19 +4,24 @@ import {useServerStore} from "@/store/server";
 import {onMounted, onUnmounted, ref} from "vue";
 import {ChannelProxy} from "@/classes/Events/ChannelProxy";
 import {Event} from "@/classes/Events/Event";
+import {usePlayersStore} from "@/store/players";
 
 const server = useServerStore();
+const players = usePlayersStore();
+
 const channelProxy = new ChannelProxy('servers.zomboid');
 const loading = ref(true);
 
-onMounted(() => {
-    server.fetch().then(() => {
-        channelProxy.addEvent(new Event('.status', (handler: any) => {
-            server.setStatus(handler.status);
-        }));
+onMounted(async () => {
+    await server.fetch();
 
-        loading.value = false;
-    });
+    channelProxy.addEvent(new Event('.status', (handler: any) => {
+        server.setStatus(handler.status);
+    }));
+
+    await players.fetch();
+
+    loading.value = false;
 });
 
 onUnmounted(() => {
@@ -42,12 +47,12 @@ onUnmounted(() => {
             <li class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
                 <p>TOTAL SURVIVORS</p>
                 <span class="mr-3">:</span>
-                <p>{{ server.playersCount }}</p>
+                <p>{{ players.playersCount }}</p>
             </li>
         </ul>
 
         <ul class="flex flex-col mt-20">
-            <li v-for="(player,index) in server.players.list" class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
+            <li v-for="(player,index) in players.data" class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">
                 <p>{{ index + 1 }}</p>
                 <span class="mr-3">.</span>
                 <p>{{ player?.name ?? 'none' }}</p>

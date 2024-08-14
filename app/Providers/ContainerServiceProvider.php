@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Repositories\Abstract\RepositoryFactoryInterface;
+use App\Repositories\Player\PlayerRepositoryInterface;
+use App\Repositories\Server\ServerRepositoryInterface;
 use App\Services\Abstract\ServiceFactoryInterface;
+use App\Services\Auth\AuthServiceInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -12,30 +16,55 @@ class ContainerServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->bindMany6Services([
+        $this->bindManyServices([
             ZomboidServiceInterface::class,
+            AuthServiceInterface::class,
+        ]);
+
+        $this->bindManyRepositories([
+            ServerRepositoryInterface::class,
+            PlayerRepositoryInterface::class,
         ]);
     }
 
     /**
      * @param  array<string>  $services
      */
-    public function bindMany6Services(array $services): void
+    public function bindManyServices(array $services): void
     {
         foreach ($services as $service) {
             $this->bindService($service);
         }
     }
 
-    /**
-     * @param  string  $serviceInterface  - service factory class name
-     */
-    public function bindService(string $serviceInterface): void
+    public function bindManyRepositories(array $repositories): void
     {
-        $serviceFactoryClassName = str_replace('Interface', 'Factory', $serviceInterface);
+        foreach ($repositories as $repositoryInterfaceName) {
+            $this->bindRepository($repositoryInterfaceName);
+        }
+    }
+
+    /**
+     * @param  string  $serviceInterfaceName  - service interface name
+     */
+    public function bindService(string $serviceInterfaceName): void
+    {
+        $serviceFactoryClassName = str_replace('Interface', 'Factory', $serviceInterfaceName);
         /** @var ServiceFactoryInterface $serviceFactory */
         $serviceFactory = new $serviceFactoryClassName;
 
-        $this->app->bind($serviceInterface, fn () => $serviceFactory->get());
+        $this->app->bind($serviceInterfaceName, fn () => $serviceFactory->get());
+    }
+
+    /**
+     * @param  string  $repositoryInterfaceName  - repository interface name
+     */
+    public function bindRepository(string $repositoryInterfaceName): void
+    {
+        $repositoryFactoryClassName = str_replace('Interface', 'Factory', $repositoryInterfaceName);
+        /** @var RepositoryFactoryInterface $repositoryFactory */
+        $repositoryFactory = new $repositoryFactoryClassName;
+
+        $this->app->bind($repositoryInterfaceName, fn () => $repositoryFactory->get());
     }
 }
