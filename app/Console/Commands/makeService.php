@@ -28,12 +28,12 @@ class makeService extends AbstractMakeFilesCommand
      */
     protected $description = 'Create named service';
 
-    function getActions(string $argument): array
+    public function getActions(string $argument): array
     {
         return [
-            new CreateServiceFileAction(new ServiceStub(), $argument),
-            new CreateServiceInterfaceFileAction(new ServiceInterfaceStub(), $argument),
-            new CreateServiceFactoryFileAction(new ServiceFactoryStub(), $argument),
+            new CreateServiceFileAction(new ServiceStub, $argument),
+            new CreateServiceInterfaceFileAction(new ServiceInterfaceStub, $argument),
+            new CreateServiceFactoryFileAction(new ServiceFactoryStub, $argument),
         ];
     }
 }

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use Inertia\Response;
+use Illuminate\Contracts\Support\Renderable;
 
 class WelcomeController extends Controller
 {
-    public function __invoke(): Response
+    public function __invoke(): Renderable
     {
-        return Inertia::render('Welcome');
+        return view('app');
     }
 }

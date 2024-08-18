@@ -11,13 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
  * @method static \Database\Factories\ServerFactory factory($count = null, $state = [])
  * @method static Builder|Server newModelQuery()
  * @method static Builder|Server newQuery()
@@ -27,10 +26,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Server whereName($value)
  * @method static Builder|Server whereStatus($value)
  * @method static Builder|Server whereUpdatedAt($value)
+ *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Player> $players
  * @property-read int|null $players_count
  * @property string $prefix
+ *
  * @method static Builder|Server wherePrefix($value)
+ *
  * @mixin \Eloquent
  */
 class Server extends Model

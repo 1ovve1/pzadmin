@@ -14,7 +14,6 @@ services:
             - backend
         links:
             - fpm
-            - php-inertia
             - php-laravel-reverb
             - php-vite-dev
         volumes:
@@ -75,19 +74,6 @@ services:
         entrypoint: [ "bash", "/root/scripts/laravel_reverb.sh" ]
         volumes:
             - ./../:/var/www/html
-
-    php-inertia:
-        container_name: "${APP_NAME:-pzadmin}_php-inertia"
-        build: ./php
-        networks:
-            - backend
-        depends_on:
-            - php-setup
-        restart: "always"
-        entrypoint: [ "bash", "/root/scripts/inertia.sh" ]
-        volumes:
-            - ./../:/var/www/html
-
 
     zomboid:
         container_name: "${APP_NAME:-pzadmin}_zomboid"

@@ -2,7 +2,6 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import {onMounted, reactive} from "vue";
 import {useAuthStore} from "@/store/auth";
-import {router} from "@inertiajs/vue3";
 
 interface LoginDataInterface {
     form: LoginFormInterface;
@@ -27,8 +26,6 @@ const auth = useAuthStore();
 
 async function authenticate() {
     await auth.login(data.form)
-
-    router.visit("/admin/dashboard");
 }
 
 onMounted(() => {

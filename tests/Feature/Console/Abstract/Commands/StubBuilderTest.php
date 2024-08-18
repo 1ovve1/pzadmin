@@ -4,11 +4,10 @@ use App\Console\Abstract\Commands\Files\Stub\StubBuilder;
 use App\Console\Abstract\Commands\Files\Stub\StubKeywordEnum;
 use Illuminate\Filesystem\Filesystem;
 use Tests\Mock\Console\Commands\Files\FileStubMock;
-use Tests\Mock\Console\Commands\Files\StubFilesFactoryMock;
 
 beforeEach(function () {
     $this->filesystem = new Filesystem;
-    $this->stub = new FileStubMock();
+    $this->stub = new FileStubMock;
     $this->stubBuilder = new StubBuilder($this->filesystem, $this->stub);
 });
 

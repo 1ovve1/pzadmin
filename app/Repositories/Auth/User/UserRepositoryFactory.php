@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\App;
 
 class UserRepositoryFactory implements RepositoryFactoryInterface
 {
-    function get(): UserRepositoryInterface
+    public function get(): UserRepositoryInterface
     {
         return App::make(UserRepository::class);
     }

@@ -15,12 +15,12 @@ class FileStubMock implements StubInterface
 
     public function getPath(): string
     {
-        return "/example_path";
+        return '/example_path';
     }
 
     public function getNamespace(): string
     {
-        return "\\example_namespace";
+        return '\\example_namespace';
     }
 
     public function convertInClassName(string $argumentName): string

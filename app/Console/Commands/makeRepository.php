@@ -26,7 +26,7 @@ class makeRepository extends AbstractMakeFilesCommand
      */
     protected $description = 'Create named repository';
 
-    function getActions(string $argument): array
+    public function getActions(string $argument): array
     {
         return [
             new CreateRepositoryInterfaceFileAction(new RepositoryInterfaceStub, $argument),

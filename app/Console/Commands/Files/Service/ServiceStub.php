@@ -10,7 +10,7 @@ final readonly class ServiceStub implements StubInterface
 {
     public function getStubPath(): string
     {
-        return __DIR__ . '/../stubs/services/service.stub';
+        return __DIR__.'/../stubs/services/service.stub';
     }
 
     public function convertInClassName(string $argumentName): string
@@ -20,11 +20,11 @@ final readonly class ServiceStub implements StubInterface
 
     public function getPath(): string
     {
-        return app_path("/Services");
+        return app_path('/Services');
     }
 
     public function getNamespace(): string
     {
-        return "App\\Services";
+        return 'App\\Services';
     }
 }

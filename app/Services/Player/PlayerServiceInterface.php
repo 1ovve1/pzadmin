@@ -8,5 +8,5 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 interface PlayerServiceInterface
 {
-    function getAllPlayersWithPagination(): Paginator;
+    public function getAllPlayersWithPagination(): Paginator;
 }

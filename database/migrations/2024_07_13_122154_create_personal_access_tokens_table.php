@@ -1,8 +1,5 @@
 <?php
 
-use App\Models\Auth\User;
-use App\Repositories\Auth\Token\TokenRepositoryInterface;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

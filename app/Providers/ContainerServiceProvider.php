@@ -21,7 +21,7 @@ class ContainerServiceProvider extends ServiceProvider
         $this->bindManyServices([
             ZomboidServiceInterface::class,
             AuthServiceInterface::class,
-            PlayerServiceInterface::class
+            PlayerServiceInterface::class,
         ]);
 
         $this->bindManyRepositories([

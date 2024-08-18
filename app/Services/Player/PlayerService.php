@@ -12,11 +12,9 @@ class PlayerService extends AbstractService implements PlayerServiceInterface
 {
     public function __construct(
         readonly protected PlayerRepositoryInterface $playerRepository
-    )
-    {
-    }
+    ) {}
 
-    function getAllPlayersWithPagination(): Paginator
+    public function getAllPlayersWithPagination(): Paginator
     {
         return $this->playerRepository->allWithPagination();
     }

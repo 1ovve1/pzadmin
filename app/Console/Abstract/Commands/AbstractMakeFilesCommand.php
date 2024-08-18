@@ -14,7 +14,7 @@ abstract class AbstractMakeFilesCommand extends Command
     /**
      * @return AbstractCreateFileAction[]
      */
-    abstract function getActions(string $argument): array;
+    abstract public function getActions(string $argument): array;
 
     public function handle(): ?bool
     {

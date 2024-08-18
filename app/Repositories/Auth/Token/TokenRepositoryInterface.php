@@ -11,5 +11,5 @@ use DateTimeInterface;
 
 interface TokenRepositoryInterface extends RepositoryInterface
 {
-    function createFor(UserData $userData, array $abilities = [], ?DateTimeInterface $expiresAt = null): TokenData;
+    public function createFor(UserData $userData, array $abilities = [], ?DateTimeInterface $expiresAt = null): TokenData;
 }

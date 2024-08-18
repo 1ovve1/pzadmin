@@ -7,7 +7,6 @@ beforeEach(function () {
     $this->seed(DatabaseSeeder::class);
 });
 
-
 test('players with pagination test', function () {
     $response = $this->get(route('v1.zomboid.players.index'));
 
@@ -15,8 +14,8 @@ test('players with pagination test', function () {
         ->assertJsonStructure([
             'data' => [
                 '*' => [
-                    'name'
-                ]
+                    'name',
+                ],
             ],
             'links',
         ])->assertJsonCount(10, 'data');

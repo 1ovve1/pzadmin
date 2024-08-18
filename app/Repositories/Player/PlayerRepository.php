@@ -6,7 +6,6 @@ namespace App\Repositories\Player;
 
 use App\Data\PlayerData;
 use App\Models\Player;
-use App\Models\Server;
 use App\Repositories\Abstract\AbstractRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 
