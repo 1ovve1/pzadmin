@@ -1,4 +1,6 @@
 import {defineStore} from "pinia";
+import {LoginFormInterface} from "@/Pages/Login.vue";
+import client from "@/store/api/client";
 
 export const useAuthStore = defineStore('auth', {
     state: (): AuthStateInterface => ({
@@ -11,9 +13,18 @@ export const useAuthStore = defineStore('auth', {
         },
         setType(type: string): void {
             this.type = type;
+        },
+        async login(loginForm: LoginFormInterface) {
+            return client.auth.login<AuthStateInterface>(loginForm.username, loginForm.password)
+                .then((authState: AuthStateInterface) => {
+                    this.setType(authState.type);
+                    this.setToken(authState.token);
+                });
         }
     },
-    persist: true,
+    persist: {
+        storage: sessionStorage
+    },
 });
 
 

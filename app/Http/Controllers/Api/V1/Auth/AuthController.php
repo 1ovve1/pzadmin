@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use App\Data\Auth\LoginData;
+use App\Data\Auth\UserData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegistrationRequest;
 use App\Http\Resources\V1\Auth\AuthenticatedResource;
-use App\Http\Resources\V1\Auth\UserResource;
 use App\Services\Auth\AuthServiceInterface;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
@@ -20,23 +22,23 @@ class AuthController extends Controller
     /**
      * @throws AuthenticationException
      */
-    public function index(): JsonResource
+    public function index(): Response
     {
-        $user = $this->authService->authenticated();
+        $userData = $this->authService->authenticated();
 
-        return UserResource::make($user);
+        return $this->json($userData);
     }
 
     /**
      * @throws AuthenticationException
      */
-    public function login(LoginRequest $loginRequest): JsonResource
+    public function login(LoginRequest $loginRequest): Response
     {
-        $payload = $loginRequest->validated();
+        $loginData = LoginData::from($loginRequest);
 
-        $personalAccessToken = $this->authService->authenticate($payload['username'], $payload['password'], $payload['remember'] ?? false);
+        $tokenData = $this->authService->authenticate($loginData);
 
-        return AuthenticatedResource::make($personalAccessToken);
+        return $this->json($tokenData, Response::HTTP_ACCEPTED);
     }
 
     /**

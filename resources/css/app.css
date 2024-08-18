@@ -29,6 +29,14 @@ body {
     box-sizing: inherit;
 
     font-family: 'JustMeAgainDownHere',serif;
+
+    --el-font-size-extra-small: 16px !important;
+    --el-font-size-small: 17px !important;
+    --el-font-size-base: 18px !important;
+    --el-font-size-medium: 10px !important;
+    --el-font-size-large: 22px !important;
+    --el-font-size-extra-large: 24px !important;
+    --font-size: 22px !important;;
 }
 
 .wrapper {

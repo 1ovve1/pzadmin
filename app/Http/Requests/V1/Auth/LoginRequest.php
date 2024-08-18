@@ -11,7 +11,7 @@ class LoginRequest extends AbstractRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class LoginRequest extends AbstractRequest
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string', 'regex:/\w*$/', 'max:255', 'unique:users,username'],
+            'username' => ['required', 'string', 'regex:/\w*$/', 'max:255', 'exists:users,username'],
             'password' => ['required', 'string', 'max:255', 'min:8'],
             'remember' => ['boolean'],
         ];

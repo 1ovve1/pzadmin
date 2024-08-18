@@ -3,7 +3,7 @@ import {LinkInterface, Pagination, PaginationInterface} from "@/classes/Paginati
 import client from "@/store/api/client";
 
 export const usePlayersStore = defineStore('players', {
-    state: (): PlayersStateInterface => Object.assign({}, new Pagination()),
+    state: (): PlayersStateInterface => Object.assign({}, new Pagination<PlayerInterface>()),
     actions: {
         async fetch(): Promise<void> {
             this.$state = await client.servers.zomboid.players.index<PlayersStateInterface>();

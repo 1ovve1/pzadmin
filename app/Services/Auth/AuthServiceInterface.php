@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Auth;
 
+use App\Data\Auth\LoginData;
+use App\Data\Auth\TokenData;
+use App\Data\Auth\UserData;
 use App\Models\Auth\PersonalAccessToken;
 use App\Models\Auth\User;
 use Illuminate\Auth\AuthenticationException;
@@ -14,12 +17,12 @@ interface AuthServiceInterface
     /**
      * @throws AuthenticationException
      */
-    public function authenticated(): User;
+    public function authenticated(): UserData;
 
     /**
      * @throws AuthenticationException
      */
-    public function authenticate(string $username, string $password, bool $remember = false): PersonalAccessToken;
+    public function authenticate(LoginData $loginData): TokenData;
 
     public function register(string $username, string $email, string $password): Authenticatable;
 }

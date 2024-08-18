@@ -9,10 +9,7 @@ use Inertia\Response;
 
 class WelcomeController extends Controller
 {
-    public function __construct(
-    ) {}
-
-    public function index(): Response
+    public function __invoke(): Response
     {
         return Inertia::render('Welcome');
     }

@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Repositories\Abstract\RepositoryFactoryInterface;
+use App\Repositories\Auth\User\UserRepositoryInterface;
 use App\Repositories\Player\PlayerRepositoryInterface;
 use App\Repositories\Server\ServerRepositoryInterface;
 use App\Services\Abstract\ServiceFactoryInterface;
 use App\Services\Auth\AuthServiceInterface;
+use App\Services\Player\PlayerServiceInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,11 +21,13 @@ class ContainerServiceProvider extends ServiceProvider
         $this->bindManyServices([
             ZomboidServiceInterface::class,
             AuthServiceInterface::class,
+            PlayerServiceInterface::class
         ]);
 
         $this->bindManyRepositories([
             ServerRepositoryInterface::class,
             PlayerRepositoryInterface::class,
+            UserRepositoryInterface::class,
         ]);
     }
 
