@@ -28,6 +28,16 @@ class AuthController extends Controller
         return $this->json($userData);
     }
 
+    public function ping(): Response
+    {
+        return response()->noContent();
+    }
+
+    public function regenerate(): Response
+    {
+        return $this->json($this->authService->regenerate(), Response::HTTP_ACCEPTED);
+    }
+
     /**
      * @throws AuthenticationException
      */
@@ -38,6 +48,13 @@ class AuthController extends Controller
         $tokenData = $this->authService->authenticate($loginData);
 
         return $this->json($tokenData, Response::HTTP_ACCEPTED);
+    }
+
+    public function logout(): Response
+    {
+        $this->authService->logout();
+
+        return response()->noContent();
     }
 
     /**

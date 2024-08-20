@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import apiClient from "@/store/api/client";
+import apiClient from "@/store/api";
 
 export const useServerStore = defineStore("server", {
     state: (): ServerStateInterface => ({

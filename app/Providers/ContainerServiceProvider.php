@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Repositories\Abstract\RepositoryFactoryInterface;
+use App\Repositories\Auth\Token\TokenRepositoryInterface;
 use App\Repositories\Auth\User\UserRepositoryInterface;
 use App\Repositories\Player\PlayerRepositoryInterface;
 use App\Repositories\Server\ServerRepositoryInterface;
@@ -25,6 +26,7 @@ class ContainerServiceProvider extends ServiceProvider
         ]);
 
         $this->bindManyRepositories([
+            TokenRepositoryInterface::class,
             ServerRepositoryInterface::class,
             PlayerRepositoryInterface::class,
             UserRepositoryInterface::class,

@@ -5,7 +5,7 @@ import {defineProps, computed} from "vue";
 import {useSettingsStore} from "@/store/settings";
 
 interface AdminLayoutProps {
-    loading: boolean;
+    loading?: boolean;
 }
 
 const props = withDefaults(defineProps<AdminLayoutProps>(), {
@@ -23,7 +23,8 @@ const props = withDefaults(defineProps<AdminLayoutProps>(), {
                     <Image relative-path="zomboid-logo.png" width="150px" height="100px" alt="zomboid-logo-black"></Image>
                     <p class="text-5xl mb-4 ml-1 text-red-900">ADMIN</p>
                 </div>
-                <div class="flex flex-row justify-center mt-8">
+                <div class="flex flex-row justify-center items-center mt-8">
+                    <slot name="right_header" />
                 </div>
             </header>
             <main>

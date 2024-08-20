@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import {onMounted, reactive} from "vue";
+import {reactive} from "vue";
 import {useAuthStore} from "@/store/auth";
+import router from "@/router";
+import {ElMessageBox} from "element-plus";
+import NonAuthenticatedAdminLayout from "@/Layouts/NonAuthenticatedAdminLayout.vue";
 
 interface LoginDataInterface {
     form: LoginFormInterface;
-    loading: boolean;
 }
 
 export interface LoginFormInterface {
@@ -20,24 +21,25 @@ const data = reactive<LoginDataInterface>({
         password: '',
         remember: false,
     },
-    loading: true,
 })
 const auth = useAuthStore();
 
-async function authenticate() {
-    await auth.login(data.form)
+function authenticate() {
+    auth.login(data.form)
+        .then(() => {
+            return router.push({name: "admin.dashboard"})
+        }).catch((e) => {
+            console.debug(e);
+            ElMessageBox.alert('Login or password are wrong! Are you zombie or not?', 'Nah???');
+        });
 }
-
-onMounted(() => {
-    data.loading = false;
-})
 
 </script>
 
 <template>
-    <AdminLayout :loading="data.loading">
+    <NonAuthenticatedAdminLayout>
         <div class="flex flex-col justify-center items-center mt-24">
-            <div class="flex flex-col justify-center items-center p-6 border rounded-2xl border-red-700 shadow-2xl shadow-red-600 bg-black">
+            <div class="flex flex-col justify-center items-center p-6 border rounded-2xl border-red-700 shadow-2xl shadow-red-600 bg-black w-50">
                 <h3 class="mb-5 text-3xl">LOGIN</h3>
                 <ElForm :model="data.form" size="large" label-width="auto" style="max-width: 600px" class="flex flex-col justify-center items-center">
                     <ElFormItem label="USERNAME">
@@ -51,12 +53,12 @@ onMounted(() => {
                     </ElFormItem>
 
                     <ElFormItem>
-                        <ElButton type="primary" @click="authenticate()">ENTER</ElButton>
+                        <ElButton type="primary" @click="authenticate()">KNOCK-KNOCK</ElButton>
                     </ElFormItem>
                 </ElForm>
             </div>
         </div>
-    </AdminLayout>
+    </NonAuthenticatedAdminLayout>
 </template>
 
 <style>

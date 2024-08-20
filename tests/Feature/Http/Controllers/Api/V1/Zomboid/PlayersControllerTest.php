@@ -10,7 +10,7 @@ beforeEach(function () {
 test('players with pagination test', function () {
     $response = $this->get(route('v1.zomboid.players.index'));
 
-    $response->assertStatus(Response::HTTP_OK)->dd()
+    $response->assertStatus(Response::HTTP_OK)
         ->assertJsonStructure([
             'data' => [
                 '*' => [

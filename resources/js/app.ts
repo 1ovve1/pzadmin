@@ -7,8 +7,7 @@ import './echo';
 import { createApp, h, DefineComponent } from 'vue';
 import ElementPlus from 'element-plus';
 import store from '@/store';
-import Welcome from "@/Pages/Welcome.vue";
-import router from "@/routes"
+import router from "@/router";
 import App from "@/App.vue";
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
