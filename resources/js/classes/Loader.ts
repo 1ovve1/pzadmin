@@ -29,7 +29,7 @@ export class Loader implements LoaderInterface {
         if (value) {
             this.start();
         } else {
-            setTimeout(() => this.stop(), 1000)
+            this.stop();
         }
     }
 }

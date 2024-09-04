@@ -16,6 +16,7 @@
             "ziggy-js": ["./vendor/tightenco/ziggy"]
         },
         "types": [
+            "vue-router/dist",
             "element-plus/global"
         ]
     },

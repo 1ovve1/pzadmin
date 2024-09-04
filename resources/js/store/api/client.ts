@@ -1,5 +1,6 @@
+import axios, {AxiosResponse} from "axios";
 import {useAuthStore} from "@/store/auth";
-import axios from "axios";
+import router from "@/router";
 
 const apiClient = axios.create({
     baseURL: '/api/v1',
@@ -13,18 +14,8 @@ apiClient.interceptors.request.use((config: any) => {
 
     return {
         ...config,
-        headers: {...config.headers, Authorization: `${type} ${token}`}
+        headers: {...config.headers, Authorization: `${type} ${token}`, Accept: 'application/json' }
     }
 })
 
-
-export default {
-    apiClient,
-    servers: {
-        zomboid: {
-            index: async <T>(): Promise<T> => {
-                return apiClient.get('/servers/zomboid').then(({ data }) => data.data);
-            }
-        }
-    }
-}
+export default apiClient;

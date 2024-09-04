@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Auth\PersonalAccessToken;
+use App\Models\Auth\User;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Relation::enforceMorphMap([
+            PersonalAccessToken::TOKENABLE_USER => User::class,
+        ]);
+
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }

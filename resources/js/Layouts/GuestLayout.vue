@@ -1,40 +1,65 @@
 <script setup lang="ts">
-import Image from "@/Components/Image.vue";
-import Loader from "@/Components/Loader.vue";
-import {defineProps} from "vue";
 
-interface GuestLayoutProps {
-    status: string;
+import Loader from "@/Components/Loader.vue";
+import PageLayout from "@/Layouts/Base/PageLayout.vue";
+import {computed, defineProps} from "vue";
+import {onBeforeMount, reactive} from "vue";
+import {useAuthStore} from "@/store/auth";
+import {useRouter} from "vue-router";
+
+interface GuestLayoutPropsInterface {
+    /** @var boolean field for pages that require some global loading preparations */
+    loading?: boolean;
+}
+
+interface GuestLayoutDataInterface {
+    /** @var boolean flag for loadings within layout (at least authStore.ping() call */
     loading: boolean;
 }
 
-const props = withDefaults(defineProps<GuestLayoutProps>(), {
-    status: '...',
-    loading: false,
+const props = withDefaults(defineProps<GuestLayoutPropsInterface>(), {
+    loading: false
+});
+
+const data = reactive<GuestLayoutDataInterface>( {
+    loading: true
+});
+
+const loadingStatus = computed<boolean>((): boolean => props.loading || data.loading);
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+/**
+ * redirect authenticated users on dashboard page
+ */
+onBeforeMount(async () => {
+    try {
+        if (!authStore.isAuthenticated) {
+            throw new Error();
+        }
+
+        await authStore.ping();
+
+        await router.push({name: "admin.dashboard"});
+    } catch (error) {
+        data.loading = false;
+    }
 });
 
 </script>
 
 <template>
-    <div class="wrapper p-6 lg:pt-8 darkMode">
-        <Loader :loading="loading">
-            <header class="flex flex-col lg:flex-row lg:justify-between">
-                <div class="flex flex-row justify-center items-end">
-                    <Image relative-path="zomboid-logo.png" width="150px" height="100px" alt="zomboid-logo"></Image>
-                    <p class="text-5xl mb-4 ml-1">SERVER</p>
-                </div>
-                <div class="flex flex-row justify-center mt-8">
-                    <h1 class="text-4xl lg:text-5xl uppercase">STATUS: {{ props.status }}</h1>
-                </div>
-            </header>
-            <main>
-                <slot />
-            </main>
-            <footer>
-            </footer>
-        </Loader>
-    </div>
+    <Loader :loading="loadingStatus">
+        <PageLayout>
+            <template v-slot:header_logo_postfix>
+                <span class="text-red-900">ADMIN</span>
+            </template>
+            <slot />
+        </PageLayout>
+    </Loader>
 </template>
 
 <style scoped>
+
 </style>

@@ -1,20 +1,16 @@
 import {defineStore} from "pinia";
-import apiClient from "@/store/api/client";
+import apiClient from "@/store/api";
 
-export const useServerStore = defineStore("players", {
+export const useServerStore = defineStore("server", {
     state: (): ServerStateInterface => ({
+        id: -1,
+        prefix: '',
+        name: '',
+        fullName: '',
         ip: '127.0.0.1',
-        port: 'none',
+        port: 0,
         status: '...',
-        players: {
-            list: [] as PlayerInterface[]
-        }
     }),
-    getters: {
-        playersCount(): number {
-            return this.players.list.length;
-        }
-    },
     actions: {
         async fetch(): Promise<void> {
             this.$state = await apiClient.servers.zomboid.index<ServerStateInterface>();
@@ -28,15 +24,11 @@ export const useServerStore = defineStore("players", {
 
 interface ServerStateInterface
 {
-    ip: string;
-    port: number|string;
-    status: string;
-    players: {
-        list: PlayerInterface[];
-    };
-}
-
-interface PlayerInterface
-{
+    id: number;
+    prefix: string;
     name: string;
+    fullName: string;
+    ip: string;
+    port: number;
+    status: string;
 }

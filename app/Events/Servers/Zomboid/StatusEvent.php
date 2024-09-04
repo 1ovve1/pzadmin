@@ -2,7 +2,7 @@
 
 namespace App\Events\Servers\Zomboid;
 
-use App\Services\Abstract\Docker\Types\ContainerStatusEnum;
+use App\Enums\Docker\ContainerStatusEnum;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -13,18 +13,12 @@ class StatusEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private readonly ?ContainerStatusEnum $enum;
-
     /**
      * Create a new event instance.
      */
     public function __construct(
-        ContainerStatusEnum|string $enum
-    ) {
-        if (is_string($enum)) {
-            $this->enum = ContainerStatusEnum::tryFrom($enum);
-        }
-    }
+        private readonly ContainerStatusEnum $enum
+    ) {}
 
     public function broadcastAs(): string
     {
@@ -46,7 +40,7 @@ class StatusEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'status' => $this->enum?->value,
+            'status' => $this->enum->value,
         ];
     }
 }

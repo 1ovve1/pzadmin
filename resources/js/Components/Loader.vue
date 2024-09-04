@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import {Loader} from "@/classes/Loader";
-import {onMounted, watch} from "vue";
+import {onBeforeMount, onMounted, onUnmounted, watch} from "vue";
 
 interface LoaderProps {
     loading: boolean;
@@ -16,17 +16,22 @@ watch(() => props.loading, (newValue: boolean) => {
     loadingInstance.switch(newValue);
 });
 
-onMounted(() => {
+onBeforeMount(() => {
     loadingInstance.switch(props.loading);
 })
+
+onUnmounted(() => {
+    loadingInstance.stop();
+});
 
 
 </script>
 
 <template>
-    <slot v-if="!loading"></slot>
+    <div v-show="!loading">
+        <slot />
+    </div>
 </template>
 
-<style scoped>
-
+<style>
 </style>

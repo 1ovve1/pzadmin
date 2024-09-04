@@ -75,19 +75,6 @@ services:
         volumes:
             - ./../:/var/www/html
 
-    php-inertia:
-        container_name: "${APP_NAME:-pzadmin}_php-inertia"
-        build: ./php
-        networks:
-            - backend
-        depends_on:
-            - php-setup
-        restart: "always"
-        entrypoint: [ "bash", "/root/scripts/inertia.sh" ]
-        volumes:
-            - ./../:/var/www/html
-
-
     zomboid:
         container_name: "${APP_NAME:-pzadmin}_zomboid"
         restart: unless-stopped

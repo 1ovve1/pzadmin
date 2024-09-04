@@ -1,49 +1,72 @@
 <script setup lang="ts">
-import Image from "@/Components/Image.vue";
-import Loader from "@/Components/Loader.vue";
-import {defineProps, computed} from "vue";
-import {useSettingsStore} from "@/store/settings";
 
-interface AdminLayoutProps {
+import Loader from "@/Components/Loader.vue";
+import PageLayout from "@/Layouts/Base/PageLayout.vue";
+import {computed, defineProps} from "vue";
+import {onBeforeMount, reactive} from "vue";
+import {useAuthStore} from "@/store/auth";
+import LogoutButton from "@/Components/Auth/LogoutButton.vue";
+import {useRouter} from "vue-router";
+
+interface AdminLayoutPropsInterface {
+    /** @var boolean field for pages that require some global loading preparations */
+    loading?: boolean;
+}
+
+interface AdminLayoutDataInterface {
+    /** @var boolean flag for loadings within layout (at least authStore.ping() call */
     loading: boolean;
 }
 
-const settings = useSettingsStore();
-const props = withDefaults(defineProps<AdminLayoutProps>(), {
+const props = withDefaults(defineProps<AdminLayoutPropsInterface>(), {
     loading: false
 });
 
+const data = reactive<AdminLayoutDataInterface>( {
+    loading: true
+});
 
-const darkModeClasses = computed(() => ({
-        'darkMode': settings.darkMode,
-        'whiteMode': !settings.darkMode,
-}));
+const loadingStatus = computed<boolean>((): boolean => props.loading || data.loading);
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+/**
+ * redirect non-authenticated users on login page
+ */
+onBeforeMount(async () => {
+    try {
+        if (!authStore.isAuthenticated) {
+            throw new Error();
+        }
+
+        await authStore.ping()
+
+        data.loading = false;
+    } catch (error) {
+        await router.push({name: "auth.login"});
+    }
+});
 
 </script>
 
 <template>
-    <div class="wrapper p-6 lg:pt-8 transition-colors" :class="darkModeClasses">
-        <Loader :loading="props.loading">
-            <header class="flex flex-col lg:flex-row lg:justify-between">
-                <div class="flex flex-row justify-center items-end">
-                    <Image :relative-path="settings.darkModeLogo" width="150px" height="100px" alt="zomboid-logo-black"></Image>
-                    <p class="text-5xl mb-4 ml-1 text-red-900">ADMIN</p>
+    <Loader :loading="loadingStatus">
+        <PageLayout>
+            <template v-slot:header_logo_postfix>
+                <span class="text-red-900">ADMIN</span>
+            </template>
+            <template v-slot:header_right_area>
+                <div class="text-3xl mr-2">
+                    <h1>username</h1>
                 </div>
-                <div class="flex flex-row justify-center mt-8">
-                </div>
-            </header>
-            <main>
-                <slot />
-            </main>
-            <footer>
-                <el-button @click="settings.switchDarkMode()">test</el-button>
-            </footer>
-        </Loader>
-    </div>
+                <LogoutButton />
+            </template>
+            <slot />
+        </PageLayout>
+    </Loader>
 </template>
 
 <style scoped>
-* {
-    font-family: 'JustMeAgainDownHere',serif;
-}
+
 </style>
