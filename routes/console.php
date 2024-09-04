@@ -1,7 +1,8 @@
 <?php
 
-use App\Jobs\Servers\Zomboid\UpdateStatusJob as ZomboidUpdateStatusJob;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Schedule;
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
 
-Schedule::job(App::make(ZomboidUpdateStatusJob::class))->everyFiveSeconds();
+Artisan::command('inspire', function () {
+    $this->comment(Inspiring::quote());
+})->purpose('Display an inspiring quote')->hourly();
