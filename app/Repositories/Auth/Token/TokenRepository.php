@@ -35,7 +35,7 @@ class TokenRepository extends AbstractRepository implements TokenRepositoryInter
     public function update(UserData $userData, int $tokenId): TokenData
     {
         /** @var User $user */
-        $user = User::whereId($userData->id)->first() ?? throw new UserNotFoundException;
+        $user = User::whereId($userData->id)->first() ?? (throw new UserNotFoundException($userData->username));
 
         /** @var PersonalAccessToken $oldToken */
         $oldToken = $user->tokens()->where('id', $tokenId)->first() ?? throw new TokenNotFoundException;

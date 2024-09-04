@@ -21,4 +21,19 @@ abstract class Controller
 
         return $json->setStatusCode($statusCode);
     }
+
+    protected function notFound(): Response
+    {
+        return response()->json()->setStatusCode(Response::HTTP_NOT_FOUND);
+    }
+
+    protected function noContent(): Response
+    {
+        return response()->json()->setStatusCode(Response::HTTP_NO_CONTENT);
+    }
+
+    protected function accepted(): Response
+    {
+        return response()->json()->setStatusCode(Response::HTTP_ACCEPTED);
+    }
 }

@@ -2,41 +2,45 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Auth;
+namespace App\Services\Auth\Token;
 
 use App\Data\Auth\LoginData;
 use App\Data\Auth\TokenData;
-use App\Data\Auth\UserData;
+use App\Exceptions\Auth\IncorrectPasswordException;
 use App\Exceptions\Auth\TokenNotFoundException;
 use App\Exceptions\Auth\UserNotFoundException;
-use App\Models\Auth\User;
 use App\Repositories\Auth\Token\TokenRepositoryInterface;
 use App\Repositories\Auth\User\UserRepositoryInterface;
 use App\Services\Abstract\AbstractService;
+use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
-class AuthService extends AbstractService implements AuthServiceInterface
+class TokenService extends AbstractService implements TokenServiceInterface
 {
     public function __construct(
-        readonly protected UserRepositoryInterface $userRepository,
-        readonly protected TokenRepositoryInterface $tokenRepository,
-    ) {}
-
-    public function authenticated(): UserData
-    {
-        return $this->userRepository->authenticated();
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly TokenRepositoryInterface $tokenRepository
+    ) {
     }
 
     public function authenticate(LoginData $loginData): TokenData
     {
         try {
-            $userData = $this->userRepository->findByLoginData($loginData);
-        } catch (UserNotFoundException) {
-            throw new AuthenticationException;
+            $userData = $this->userRepository->findByUsername($loginData->username);
+
+            if (! Hash::check($loginData->password, $userData->password)) {
+                throw new IncorrectPasswordException($loginData->username);
+            }
+        } catch (UserNotFoundException|IncorrectPasswordException) {
+            throw new AuthenticationException();
         }
 
-        return $this->tokenRepository->createFor($userData);
+        if ($loginData->remember_me) {
+            $longExpiresTime = Carbon::now()->addMonth();
+        }
+
+        return $this->tokenRepository->createFor($userData, expiresAt: $longExpiresTime ?? null);
     }
 
     /**
@@ -56,13 +60,6 @@ class AuthService extends AbstractService implements AuthServiceInterface
         $tokenId = $this->getTokenIdFromRequest();
 
         $this->tokenRepository->delete($tokenId);
-    }
-
-    public function register(string $username, string $email, string $password): Authenticatable
-    {
-        return User::first(
-
-        );
     }
 
     private function getTokenIdFromRequest(): int

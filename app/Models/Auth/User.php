@@ -4,11 +4,14 @@ namespace App\Models\Auth;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
+ *
+ *
  * @property int $id
  * @property string $name
  * @property string $email
@@ -19,7 +22,6 @@ use Laravel\Sanctum\HasApiTokens;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
- *
  * @method static \Database\Factories\Auth\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -32,13 +34,13 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- *
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Auth\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property string $username
- *
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
- *
+ * @property int|null $registration_access_id
+ * @property-read \App\Models\Auth\Invite|null $registrationAccess
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRegistrationAccessId($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -51,9 +53,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
+        'registration_access_id'
     ];
 
     /**
@@ -62,7 +66,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -82,5 +85,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function registrationAccess(): HasOne
+    {
+        return $this->hasOne(Invite::class);
     }
 }

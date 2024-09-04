@@ -24,7 +24,7 @@ class LoginRequest extends AbstractRequest
         return [
             'username' => ['required', 'string', 'regex:/\w*$/', 'max:255', 'exists:users,username'],
             'password' => ['required', 'string', 'max:255', 'min:8'],
-            'remember' => ['boolean'],
+            'remember_me' => ['boolean'],
         ];
     }
 }

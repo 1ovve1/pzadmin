@@ -8,6 +8,7 @@ use App\Data\ServerData;
 use App\Http\Controllers\Controller;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ZomboidController extends Controller
 {
@@ -15,29 +16,29 @@ class ZomboidController extends Controller
         readonly private ZomboidServiceInterface $zomboidService
     ) {}
 
-    public function index(): ServerData
+    public function index(): Response
     {
-        return $this->zomboidService->getServer();
+        return $this->json($this->zomboidService->getServer());
     }
 
-    public function start(): JsonResponse
+    public function start(): Response
     {
         $this->zomboidService->doStart();
 
-        return response()->json();
+        return $this->accepted();
     }
 
-    public function down(): JsonResponse
+    public function down(): Response
     {
         $this->zomboidService->doDown();
 
-        return response()->json();
+        return $this->accepted();
     }
 
-    public function restart(): JsonResponse
+    public function restart(): Response
     {
         $this->zomboidService->doRestart();
 
-        return response()->json();
+        return $this->accepted();
     }
 }

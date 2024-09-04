@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import AuthenticatedAdminLayout from "@/Layouts/AuthenticatedAdminLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 </script>
 
 <template>
-    <AuthenticatedAdminLayout>
+    <AdminLayout>
 
-    </AuthenticatedAdminLayout>
+    </AdminLayout>
 </template>
 
 <style scoped>

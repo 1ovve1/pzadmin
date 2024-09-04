@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Repositories\Auth\User;
 
 use App\Data\Auth\LoginData;
+use App\Data\Auth\RegistrationData;
 use App\Data\Auth\UserData;
+use App\Exceptions\Auth\IncorrectPasswordException;
 use App\Exceptions\Auth\UserNotFoundException;
 use App\Models\Auth\User;
 use App\Repositories\Abstract\AbstractRepository;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
@@ -23,14 +26,28 @@ class UserRepository extends AbstractRepository implements UserRepositoryInterfa
         return UserData::from($user);
     }
 
-    public function findByLoginData(LoginData $loginData): UserData
+    public function findByUsername(string $username): UserData
+    {
+        $username = Str::lower($username);
+
+        $user = User::whereUsername($username)->first() ?? throw new UserNotFoundException($username);
+
+        return UserData::from($user);
+    }
+
+    public function findByEmail(string $email): UserData
+    {
+        $email = Str::lower($email);
+
+        $user = User::whereEmail($email)->first() ?? throw new UserNotFoundException($email);
+
+        return UserData::from($user);
+    }
+
+    public function create(RegistrationData $registrationData): UserData
     {
         /** @var User $user */
-        $user = User::whereUsername($loginData->username)->first() ?? throw new UserNotFoundException;
-
-        if (! Hash::check($loginData->password, $user->password)) {
-            throw new UserNotFoundException;
-        }
+        $user = User::create($registrationData->toArray());
 
         return UserData::from($user);
     }

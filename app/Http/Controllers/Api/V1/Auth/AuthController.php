@@ -3,19 +3,24 @@
 namespace App\Http\Controllers\Api\V1\Auth;
 
 use App\Data\Auth\LoginData;
+use App\Data\Auth\RegistrationData;
+use App\Exceptions\Auth\InviteLimitException;
+use App\Exceptions\Auth\InviteNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Requests\V1\Auth\RegistrationRequest;
-use App\Http\Resources\V1\Auth\AuthenticatedResource;
-use App\Services\Auth\AuthServiceInterface;
+use App\Services\Auth\Invite\InviteServiceInterface;
+use App\Services\Auth\Token\TokenServiceInterface;
+use App\Services\Auth\User\UserServiceInterface;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
     public function __construct(
-        readonly private AuthServiceInterface $authService
+        readonly private UserServiceInterface $userService,
+        readonly private TokenServiceInterface $tokenService,
+        readonly private InviteServiceInterface $inviteService,
     ) {}
 
     /**
@@ -23,7 +28,7 @@ class AuthController extends Controller
      */
     public function index(): Response
     {
-        $userData = $this->authService->authenticated();
+        $userData = $this->userService->authenticated();
 
         return $this->json($userData);
     }
@@ -35,7 +40,7 @@ class AuthController extends Controller
 
     public function regenerate(): Response
     {
-        return $this->json($this->authService->regenerate(), Response::HTTP_ACCEPTED);
+        return $this->json($this->tokenService->regenerate(), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -45,29 +50,38 @@ class AuthController extends Controller
     {
         $loginData = LoginData::from($loginRequest);
 
-        $tokenData = $this->authService->authenticate($loginData);
+        $tokenData = $this->tokenService->authenticate($loginData);
 
         return $this->json($tokenData, Response::HTTP_ACCEPTED);
     }
 
+    /**
+     * @throws AuthenticationException
+     */
     public function logout(): Response
     {
-        $this->authService->logout();
+        $this->tokenService->logout();
 
         return response()->noContent();
     }
 
     /**
      * @throws AuthenticationException
+     * @throws InviteNotFoundException
+     * @throws InviteLimitException
      */
-    public function registration(RegistrationRequest $loginRequest): JsonResource
+    public function registration(RegistrationRequest $loginRequest): Response
     {
-        $payload = $loginRequest->validated();
+        $registrationData = RegistrationData::from($loginRequest);
+        $inviteData = $this->inviteService->verifyInviteHash($registrationData->hash);
 
-        $this->authService->register($payload['username'], $payload['email'], $payload['password']);
+        $this->userService->register($registrationData);
+        $this->inviteService->decLimit($inviteData);
 
-        $personalAccessToken = $this->authService->authenticate($payload['username'], $payload['password']);
+        $tokenData = $this->tokenService->authenticate(LoginData::from(
+            $registrationData
+        ));
 
-        return AuthenticatedResource::make($personalAccessToken);
+        return $this->json($tokenData, Response::HTTP_ACCEPTED);
     }
 }

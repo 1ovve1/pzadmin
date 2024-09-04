@@ -11,7 +11,7 @@ class RegistrationRequest extends AbstractRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +22,10 @@ class RegistrationRequest extends AbstractRequest
     public function rules(): array
     {
         return [
+            'email' => ['required', 'email', 'unique:users,email'],
             'username' => ['required', 'string', 'regex:/\w*$/', 'max:255', 'unique:users,username'],
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string', 'max:255', 'min:8'],
+            'password' => ['required', 'string', 'max:255', 'min:8', 'confirmed'],
+            'hash' => ['required'],
         ];
     }
 }

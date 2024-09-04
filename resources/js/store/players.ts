@@ -4,14 +4,17 @@ import client from "@/store/api";
 
 export const usePlayersStore = defineStore('players', {
     state: (): PlayersStateInterface => Object.assign({}, new Pagination<PlayerInterface>()),
+    getters: {
+        getPlayersCount: (state: PlayersStateInterface): number =>
+            state.data.length,
+        getPlayersList: (state: PlayersStateInterface): PlayerInterface[] =>
+            state.data,
+    },
     actions: {
         async fetch(): Promise<void> {
-            this.$state = await client.servers.zomboid.players.index<PlayersStateInterface>();
-        }
-    },
-    getters: {
-        playersCount(): number {
-            return this.data.length;
+            const playerState: PlayersStateInterface = await client.servers.zomboid.players.index<PlayersStateInterface>();
+
+            this.$patch(playerState);
         }
     }
 });

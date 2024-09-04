@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Repositories\Abstract\RepositoryFactoryInterface;
+use App\Repositories\Auth\Invite\InviteRepositoryInterface;
 use App\Repositories\Auth\Token\TokenRepositoryInterface;
 use App\Repositories\Auth\User\UserRepositoryInterface;
 use App\Repositories\Player\PlayerRepositoryInterface;
 use App\Repositories\Server\ServerRepositoryInterface;
 use App\Services\Abstract\ServiceFactoryInterface;
-use App\Services\Auth\AuthServiceInterface;
+use App\Services\Auth\Invite\InviteServiceInterface;
+use App\Services\Auth\Token\TokenServiceInterface;
+use App\Services\Auth\User\UserServiceInterface;
 use App\Services\Player\PlayerServiceInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -21,13 +24,16 @@ class ContainerServiceProvider extends ServiceProvider
     {
         $this->bindManyServices([
             ZomboidServiceInterface::class,
-            AuthServiceInterface::class,
             PlayerServiceInterface::class,
+            UserServiceInterface::class,
+            TokenServiceInterface::class,
+            InviteServiceInterface::class,
         ]);
 
         $this->bindManyRepositories([
             TokenRepositoryInterface::class,
             ServerRepositoryInterface::class,
+            InviteRepositoryInterface::class,
             PlayerRepositoryInterface::class,
             UserRepositoryInterface::class,
         ]);

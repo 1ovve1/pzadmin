@@ -14,7 +14,7 @@ class ZomboidServiceFactory implements ServiceFactoryInterface
 {
     public function get(): ZomboidServiceInterface
     {
-        $dockerClientFactory = new DockerClientFactory;
+        $dockerClientFactory = App::make(DockerClientFactory::class);
 
         return App::make(ZomboidService::class, [
             'zomboidDockerContainer' => new ZomboidDockerContainer($dockerClientFactory->getClientWithHandler(), ServerEnum::ZOMBOID->name()),

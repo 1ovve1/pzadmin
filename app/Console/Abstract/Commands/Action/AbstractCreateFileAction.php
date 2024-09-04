@@ -10,6 +10,7 @@ use App\Console\Abstract\Commands\Files\Traits\ParseArgumentTrait;
 use App\Exceptions\Console\Commands\FileAlreadyExistsException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Str;
 
 abstract readonly class AbstractCreateFileAction
 {
@@ -43,9 +44,9 @@ abstract readonly class AbstractCreateFileAction
 
         $this->argumentName = $this->parseNameByArgument($argument);
         $this->className = $this->stub->convertInClassName($this->argumentName);
-        $this->namespace = "{$this->stub->getNamespace()}\\{$this->parsePrefixNamespaceByArgument($argument)}\\{$this->argumentName}";
-        $this->folderPath = "{$this->stub->getPath()}/{$this->parsePrefixPathByArgument($argument)}/{$this->argumentName}";
-        $this->classPath = $this->folderPath."/{$this->className}.php";
+        $this->namespace = Str::deduplicate("{$this->stub->getNamespace()}\\{$this->parsePrefixNamespaceByArgument($argument)}\\{$this->argumentName}", '\\');
+        $this->folderPath = Str::deduplicate("{$this->stub->getPath()}/{$this->parsePrefixPathByArgument($argument)}/{$this->argumentName}", '/');
+        $this->classPath = Str::deduplicate($this->folderPath."/{$this->className}.php", '/');
     }
 
     /**
