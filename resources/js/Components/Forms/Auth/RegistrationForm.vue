@@ -2,9 +2,12 @@
 
 import FormWrapper from "@/Components/Forms/FormWrapper.vue";
 import {RegistrationFormInterface, useAuthStore} from "@/store/auth";
-import {onBeforeMount, reactive, ref} from "vue";
+import {computed, onBeforeMount, reactive, ref} from "vue";
 import {ElMessageBox, FormInstance, FormRules} from "element-plus";
 import {debounce} from "ts-debounce";
+import FormInput from "@/Components/Forms/Elements/Items/FormInput.vue";
+import BlackBloodyForm from "@/Components/Forms/Elements/BlackBloodyForm.vue";
+import FormButton from "@/Components/Forms/Elements/Items/FormButton.vue";
 
 
 interface RegistrationFormPropsInterface {
@@ -78,7 +81,7 @@ const emailExistsValidation = debounce(async (callback: Function, value: string)
 
         callback();
     } catch (error) {
-        callback(new Error('two mans - one email...'));
+        callback(new Error('email already exists'));
     }
 }, 1000);
 const validationEmail = async (_: any, value: any, callback: Function) => {
@@ -149,6 +152,7 @@ const rules = reactive<FormRules<RegistrationFormInterface>>({
  * #######################################
  */
 
+
 async function registration(): Promise<void> {
     try {
         await formRef.value?.validate(async (valid: boolean) => {
@@ -181,38 +185,23 @@ onBeforeMount(async () => {
     }
 })
 
-
 </script>
 
 <template>
-    <FormWrapper title="REGISTRATION">
-        <el-form :model="data.form"
-                 @keypress.enter.native="registration()"
-                 size="large"
-                 label-width="auto"
-                 style="max-width: 600px"
-                 class="flex flex-col justify-center items-center"
-                 :rules="rules"
-                 ref="formRef">
-            <el-form-item title="username" label="USERNAME" prop="username">
-                <el-input v-model="data.form.username" style="width: 250px" name="username" placeholder="USERNAME"
-                          type="text" v-uppercase-input></el-input>
-            </el-form-item>
-            <el-form-item title="email" label="EMAIL" prop="email">
-                <el-input v-model="data.form.email" style="width: 250px" name="email" placeholder="EMAIL" type="text" v-uppercase-input></el-input>
-            </el-form-item>
-            <el-form-item title="password" label="PASSWORD" prop='password'>
-                <el-input v-model="data.form.password" style="width: 250px" name="password" placeholder="PASSWORD"
-                          type="password" show-password></el-input>
-            </el-form-item>
-            <el-form-item title="password confirm" label="CONFIRM" prop="password_confirmation">
-                <el-input v-model="data.form.password_confirmation" style="width: 250px" name="password_confirmation"
-                          placeholder="PASSWORD CONFIRM" type="password" show-password></el-input>
-            </el-form-item>
+    <BlackBloodyForm title="REGISTRATION">
+        <FormWrapper
+            v-model="data.form"
+            :rules="rules"
+            @onEnterSubmit="registration()"
+            ref="formRef">
+            <FormInput v-model="data.form.username" type="text" name="username" title="username" placeholder="USERNAME" autofocus uppercase/>
+            <FormInput v-model="data.form.email" type="text" name="email" title="email" placeholder="EMAIL" uppercase/>
+            <FormInput v-model="data.form.password" type="password" name="password" title="password" placeholder="PASSWORD" show-password/>
+            <FormInput v-model="data.form.password_confirmation" type="password" name="password_confirmation" title="confirm" placeholder="PASS CONFIRM" show-password/>
 
-            <el-button @click="registration()" type="primary">KNOCK-KNOCK</el-button>
-        </el-form>
-    </FormWrapper>
+            <FormButton>KNOCK-KNOCK</FormButton>>
+        </FormWrapper>
+    </BlackBloodyForm>
 </template>
 
 <style>

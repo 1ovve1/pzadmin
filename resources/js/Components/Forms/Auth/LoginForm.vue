@@ -1,9 +1,13 @@
 <script setup lang="ts">
 
 import FormWrapper from "@/Components/Forms/FormWrapper.vue";
-import {reactive} from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import {LoginFormInterface, RegistrationFormInterface, useAuthStore} from "@/store/auth";
 import {ElMessageBox, FormRules} from "element-plus";
+import FormInput from "@/Components/Forms/Elements/Items/FormInput.vue";
+import BlackBloodyForm from "@/Components/Forms/Elements/BlackBloodyForm.vue";
+import FormButton from "@/Components/Forms/Elements/Items/FormButton.vue";
+import FormCheckbox from "@/Components/Forms/Elements/Items/FormCheckbox.vue";
 
 interface LoginDataInterface {
     form: LoginFormInterface;
@@ -27,8 +31,6 @@ const validateUsername = async (rule: any, value: any, callback: Function) => {
 
     if (value === '') {
         callback(new Error('who are you mfk???'));
-    } else if (value.length < 4) {
-        callback(new Error('too small, think more'));
     } else if (value.length > 255) {
         callback(new Error('are you an idiot?'));
     } else {
@@ -62,6 +64,8 @@ const rules = reactive<FormRules<RegistrationFormInterface>>({
     }],
 });
 
+
+
 async function authenticate() {
     try {
         await auth.login(data.form)
@@ -72,25 +76,23 @@ async function authenticate() {
     }
 }
 
+
+
 </script>
 
 <template>
-    <FormWrapper title="LOGIN">
-        <el-form :model="data.form" @keypress.enter.native="authenticate()" size="large" label-width="auto" style="max-width: 600px" class="flex flex-col justify-center items-center">
-            <el-form-item title="username" label="USERNAME" prop="username">
-                <el-input :formatter="(value: string) => value.toUpperCase()" v-model="data.form.username" style="width: 250px" name="username" placeholder="USERNAME" type="text" autofocus></el-input>
-            </el-form-item>
-            <el-form-item label="PASSWORD">
-                <el-input v-model="data.form.password" style="width: 250px" name="password" placeholder="PASSWORD" type="password" show-password></el-input>
-            </el-form-item>
-            <el-form-item label="REMEMBER ME">
-                <el-checkbox v-model="data.form.remember_me" name="remember_me"></el-checkbox>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="authenticate()">KNOCK-KNOCK</el-button>
-            </el-form-item>
-        </el-form>
-    </FormWrapper>
+    <BlackBloodyForm title="LOGIN">
+        <FormWrapper v-model="data.form"
+                     :rules="rules"
+                     @onEnterSubmit="authenticate()">
+            <FormInput v-model="data.form.username" type="text" name="username" title="username" placeholder="USERNAME" autofocus uppercase/>
+            <FormInput v-model="data.form.password" type="password" name="password" title="password" placeholder="PASSWORD" show-password/>
+
+            <FormCheckbox v-model="data.form.remember_me" title="remember me" name="remember_me" />
+
+            <FormButton @click="authenticate()">KNOCK-KNOCK</FormButton>
+        </FormWrapper>
+    </BlackBloodyForm>
 </template>
 
 <style scoped>

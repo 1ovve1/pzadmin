@@ -1,33 +1,63 @@
 <script setup lang="ts">
 
+import {FormInstance, FormRules, FormValidateCallback, FormValidationResult} from "element-plus";
+import {ref} from "vue";
+import type {Arrayable} from "element-plus/es/utils";
+import type {FormItemProp} from "element-plus/es/components/form/src/form-item";
 
-interface FormWrapperPropsInterface {
-    title: string;
+const emit = defineEmits<{
+    (e: "onEnterSubmit"): void,
+}>();
+
+interface BlackBloodyFormPropsInterface {
+    rules?: FormRules,
 }
 
-const props = defineProps<FormWrapperPropsInterface>();
+const props = defineProps<BlackBloodyFormPropsInterface>();
+
+const model = defineModel();
+
+const formInstance = ref<FormInstance>();
+
+async function validate(callback: FormValidateCallback): FormValidationResult {
+    return getForm().validate(callback);
+}
+
+async function validateField(props?: Arrayable<FormItemProp> | undefined, callback?: FormValidateCallback | undefined): FormValidationResult
+{
+    return getForm().validateField(props, callback);
+}
+
+defineExpose({
+    validate, validateField
+});
+
+function getForm(): FormInstance
+{
+    const form = formInstance.value;
+
+    if (!form) {
+        throw new Error();
+    }
+
+    return form;
+}
 
 </script>
 
 <template>
-    <div class="flex flex-col justify-center items-center p-6 border rounded-2xl border-red-700 shadow-2xl shadow-red-600 bg-black w-50">
-        <h3 class="mb-5 text-3xl">{{ props.title }}</h3>
+    <el-form :model="model"
+             :rules="props.rules"
+             @keypress.enter.native="emit('onEnterSubmit')"
+             size="large"
+             label-width="auto"
+             style="max-width: 600px"
+             class="flex flex-col justify-center items-center"
+             ref="formInstance">
         <slot />
-    </div>
+    </el-form>
 </template>
 
-<style >
-.el-input input {
-    text-align: center;
-    font-size: 26px;
-}
+<style scoped>
 
-.el-form-item__error {
-    text-transform: uppercase;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-.el-form-item {
-    margin-bottom: 30px;
-}
 </style>
