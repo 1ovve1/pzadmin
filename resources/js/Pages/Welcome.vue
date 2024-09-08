@@ -9,29 +9,19 @@ import {usePlayersStore} from "@/store/players";
 const server = useServerStore();
 const players = usePlayersStore();
 
-const channelProxy = new ChannelProxy('servers.zomboid');
 const loading = ref(true);
 
 onMounted(async () => {
     await server.fetch();
-
-    channelProxy.addEvent(new Event('.status', (handler: any) => {
-        server.setStatus(handler.status);
-    }));
-
     await players.fetch();
 
     loading.value = false;
 });
 
-onUnmounted(() => {
-    channelProxy.destroy();
-})
-
 </script>
 
 <template>
-    <WelcomeLayout :status="server.status" :loading="loading">
+    <WelcomeLayout :loading="loading">
         <div class="wrapper">
             <ul class="flex flex-col mt-20">
                 <li class="flex flex-row justify-center text-4xl xl:text-6xl lg:text-5xl mb-7">

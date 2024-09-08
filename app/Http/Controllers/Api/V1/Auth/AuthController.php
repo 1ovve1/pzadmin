@@ -15,12 +15,12 @@ use App\Services\Auth\User\UserServiceInterface;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthController extends Controller
+readonly final class AuthController extends Controller
 {
     public function __construct(
-        readonly private UserServiceInterface $userService,
-        readonly private TokenServiceInterface $tokenService,
-        readonly private InviteServiceInterface $inviteService,
+        private UserServiceInterface $userService,
+        private TokenServiceInterface $tokenService,
+        private InviteServiceInterface $inviteService,
     ) {}
 
     /**

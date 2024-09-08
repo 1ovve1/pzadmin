@@ -5,14 +5,13 @@ import {defineProps} from "vue";
 import Fog from "@/Components/Fog.vue";
 import BloodCaption from "@/Components/BloodCaption.vue";
 import PageLayout from "@/Layouts/Base/PageLayout.vue";
+import ServerStatus from "@/Components/Server/ServerStatus.vue";
 
 interface GuestLayoutProps {
-    status: string;
     loading: boolean;
 }
 
 const props = withDefaults(defineProps<GuestLayoutProps>(), {
-    status: '...',
     loading: false,
 });
 
@@ -20,11 +19,11 @@ const props = withDefaults(defineProps<GuestLayoutProps>(), {
 
 <template>
     <Fog />
-    <Loader :loading="loading">
+    <Loader :loading="props.loading">
         <PageLayout>
             <template v-slot:header_logo_postfix>SERVER</template>
             <template v-slot:header_right_area>
-                <h1 class="text-4xl lg:text-5xl uppercase">STATUS: {{ props.status }}</h1>
+                <ServerStatus />
             </template>
             <slot />
         </PageLayout>

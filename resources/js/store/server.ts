@@ -11,11 +11,26 @@ export const useServerStore = defineStore("server", {
         port: 0,
         status: '...',
     }),
+    getters: {
+        isEmpty: (state: ServerStateInterface): boolean =>
+            state.id === -1,
+
+        isActive: (state: ServerStateInterface): boolean =>
+            state.status === 'active',
+        isDown: (state: ServerStateInterface): boolean =>
+            state.status === 'down',
+    },
     actions: {
         async fetch(): Promise<void> {
-            this.$state = await apiClient.servers.zomboid.index<ServerStateInterface>();
+            this.$state = await apiClient.zomboid.index<ServerStateInterface>();
         },
-        setStatus(status: string): void
+        async start(): Promise<void> {
+            await apiClient.zomboid.start();
+        },
+        async down(): Promise<void> {
+            await apiClient.zomboid.down();
+        },
+        setStatus(status: ServerStatusEnum): void
         {
             this.status = status;
         },
@@ -30,5 +45,7 @@ interface ServerStateInterface
     fullName: string;
     ip: string;
     port: number;
-    status: string;
+    status: ServerStatusEnum;
 }
+
+type ServerStatusEnum = '...' | 'active' | 'down' | 'pending' | 'restarting' | 'paused' | 'error';

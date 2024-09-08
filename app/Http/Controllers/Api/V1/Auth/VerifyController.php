@@ -10,11 +10,11 @@ use App\Services\Auth\User\UserServiceInterface;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
-class VerifyController extends Controller
+readonly final class VerifyController extends Controller
 {
     public function __construct(
-        readonly private InviteServiceInterface $authService,
-        readonly private UserServiceInterface $userService,
+        private InviteServiceInterface $authService,
+        private UserServiceInterface $userService,
     ) {
 
     }

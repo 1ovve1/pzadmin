@@ -10,10 +10,10 @@ use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class ZomboidController extends Controller
+readonly final class ZomboidController extends Controller
 {
     public function __construct(
-        readonly private ZomboidServiceInterface $zomboidService
+        private ZomboidServiceInterface $zomboidService
     ) {}
 
     public function index(): Response

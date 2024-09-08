@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 
-class WelcomeController extends Controller
+readonly final class WelcomeController extends Controller
 {
     public function __invoke(): Renderable
     {

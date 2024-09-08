@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, StyleValue} from "vue";
 
 interface InputPropsInterface {
     title: string;
@@ -26,7 +26,7 @@ const model = defineModel();
 const localInnerWidth = ref<number>(window.innerWidth);
 
 const labelPosition = computed<string>(() => localInnerWidth.value > 500 ? "left": "top");
-const styles = computed<Partial<CSSStyleDeclaration>>(() => ({
+const styles = computed<StyleValue>(() => ({
     width: localInnerWidth.value > 500 ? "200px": "",
 }))
 

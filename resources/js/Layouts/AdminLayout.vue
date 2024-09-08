@@ -5,8 +5,9 @@ import PageLayout from "@/Layouts/Base/PageLayout.vue";
 import {computed, defineProps} from "vue";
 import {onBeforeMount, reactive} from "vue";
 import {useAuthStore} from "@/store/auth";
-import LogoutButton from "@/Components/Auth/LogoutButton.vue";
 import {useRouter} from "vue-router";
+import {UserInterface, useUser} from "@/store/user";
+import UsernameMenu from "@/Components/Menu/UsernameMenu.vue";
 
 interface AdminLayoutPropsInterface {
     /** @var boolean field for pages that require some global loading preparations */
@@ -16,6 +17,7 @@ interface AdminLayoutPropsInterface {
 interface AdminLayoutDataInterface {
     /** @var boolean flag for loadings within layout (at least authStore.ping() call */
     loading: boolean;
+    user?: UserInterface;
 }
 
 const props = withDefaults(defineProps<AdminLayoutPropsInterface>(), {
@@ -23,13 +25,15 @@ const props = withDefaults(defineProps<AdminLayoutPropsInterface>(), {
 });
 
 const data = reactive<AdminLayoutDataInterface>( {
-    loading: true
+    loading: true,
 });
 
 const loadingStatus = computed<boolean>((): boolean => props.loading || data.loading);
 
 const authStore = useAuthStore();
 const router = useRouter();
+
+
 
 /**
  * redirect non-authenticated users on login page
@@ -57,10 +61,7 @@ onBeforeMount(async () => {
                 <span class="text-red-900">ADMIN</span>
             </template>
             <template v-slot:header_right_area>
-                <div class="text-3xl mr-2">
-                    <h1>username</h1>
-                </div>
-                <LogoutButton />
+                    <UsernameMenu/>
             </template>
             <slot />
         </PageLayout>

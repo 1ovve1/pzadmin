@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Services\Player\PlayerServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class PlayersController extends Controller
+readonly final class PlayersController extends Controller
 {
     public function __construct(
-        readonly private PlayerServiceInterface $playerService
+        private PlayerServiceInterface $playerService
     ) {}
 
     public function index(): Response
