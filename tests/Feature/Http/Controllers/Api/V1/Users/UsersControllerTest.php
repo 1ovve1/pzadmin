@@ -4,7 +4,6 @@ use App\Models\Auth\User;
 use Tests\TestCase;
 
 /** @var TestCase $this */
-
 test('test me', function () {
     $user = User::factory()->create();
 
@@ -15,6 +14,6 @@ test('test me', function () {
             'id' => $user->id,
             'username' => $user->username,
             'email' => $user->email,
-        ]
+        ],
     ])->assertStatus(\Symfony\Component\HttpFoundation\Response::HTTP_ACCEPTED);
 });

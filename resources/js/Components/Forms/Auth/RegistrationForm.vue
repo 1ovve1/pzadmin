@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import FormWrapper from "@/Components/Forms/FormWrapper.vue";
-import {RegistrationFormInterface, useAuthStore} from "@/store/auth";
+import {RegistrationFormInterface, useAuthStore} from "@/store/auth/";
 import {computed, onBeforeMount, reactive, ref} from "vue";
 import {ElMessageBox, FormInstance, FormRules} from "element-plus";
 import {debounce} from "ts-debounce";

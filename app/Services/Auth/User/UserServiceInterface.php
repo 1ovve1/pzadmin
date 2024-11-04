@@ -8,7 +8,6 @@ use App\Data\Auth\RegistrationData;
 use App\Data\Auth\UserData;
 use App\Exceptions\Auth\UserNotFoundException;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserServiceInterface
 {

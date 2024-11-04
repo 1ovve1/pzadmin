@@ -3,23 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Pagination\Paginator;
-use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
+use JsonSerializable;
 use Symfony\Component\HttpFoundation\Response;
 
-readonly abstract class Controller
+abstract readonly class Controller
 {
-    protected function json(Data|DataCollection|Paginator $data, int $statusCode = Response::HTTP_OK): Response
+    protected function json(JsonSerializable|Paginator|array $data, int $statusCode = Response::HTTP_OK): Response
     {
-        $json = match ($data instanceof Data) {
-            true => \response()->json([
-                'data' => $data->jsonSerialize(),
-            ]),
-            false => \response()
-                ->json($data->jsonSerialize()),
-        };
+        $response = response();
 
-        return $json->setStatusCode($statusCode);
+        if ($data instanceof JsonSerializable) {
+            if ($data instanceof Paginator) {
+                $response = $response->json($data->jsonSerialize());
+            } else {
+                $response = $response->json([
+                    'data' => $data->jsonSerialize(),
+                ]);
+            }
+        } else {
+            $response = $response->json([
+                'data' => $data,
+            ]);
+        }
+
+        return $response->setStatusCode($statusCode);
     }
 
     protected function notFound(): Response

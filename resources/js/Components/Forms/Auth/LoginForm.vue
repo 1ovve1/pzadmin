@@ -2,7 +2,7 @@
 
 import FormWrapper from "@/Components/Forms/FormWrapper.vue";
 import {computed, onMounted, reactive, ref} from "vue";
-import {LoginFormInterface, RegistrationFormInterface, useAuthStore} from "@/store/auth";
+import {LoginFormInterface, RegistrationFormInterface, useAuthStore} from "@/store/auth/";
 import {ElMessageBox, FormRules} from "element-plus";
 import FormInput from "@/Components/Forms/Elements/Items/FormInput.vue";
 import BlackBloodyForm from "@/Components/Forms/Elements/BlackBloodyForm.vue";

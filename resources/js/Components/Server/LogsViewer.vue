@@ -1,8 +1,15 @@
 <script setup lang="ts">
 
-import {computed, onBeforeMount, onMounted, ref, StyleValue} from "vue";
+import {computed, onBeforeMount, onDeactivated, onMounted, onUnmounted, ref, StyleValue} from "vue";
+import {useZomboidLogsStore} from "@/store/zomboid/logs";
+import {ChannelProxy} from "@/classes/Events/ChannelProxy";
+import {Event} from "@/classes/Events/Event";
 
 const globalWidth = ref<number>(window.innerWidth);
+const scrollWindow = ref<HTMLDivElement>();
+const channelProxy = new ChannelProxy('servers.zomboid.logs');
+
+const logs = useZomboidLogsStore();
 
 const styles = computed<StyleValue>(() => ({
     display: (globalWidth.value < 786) ? "none": "block",
@@ -17,59 +24,37 @@ onBeforeMount(() => {
     });
 });
 
+onMounted(async () => {
+    if (scrollWindow.value) {
+        const scrollWindowValue = scrollWindow.value;
+
+        await logs.fetch();
+
+        scrollWindowValue.scrollTop = scrollWindowValue.scrollHeight;
+
+        channelProxy.addEvent(new Event('.record', async (handler: any) => {
+            const ifScrollHeightWasInTheEndOfList = (scrollWindowValue.scrollTop + scrollWindowValue.clientHeight) === scrollWindowValue.scrollHeight;
+
+            await logs.fetch();
+
+            if (ifScrollHeightWasInTheEndOfList) {
+                scrollWindowValue.scrollTop = scrollWindowValue.scrollHeight;
+            }
+        }));
+    }
+});
+
+onUnmounted(() => {
+    channelProxy.destroy();
+})
+
 </script>
 
 <template>
-    <div class="bg-gray-300" :style="styles">
+    <div ref="scrollWindow" class="bg-gray-300 overflow-y-scroll" :style="styles">
         <div class="text-black font-mono mx-3 my-5">
-                        <span class="text-sm font-mono block">
-                            1725565282906> 152,897,900> [05-09-24 19:41:22.906] > ZNet: SZombienet -> SSteamSDK: SetMaxPlayerCount
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725565282906> 152,897,900> [05-09-24 19:41:22.906] > ZNet: Public IP: 94.25.237.20
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725565283304> 152,898,298> [05-09-24 19:41:23.304] > ZNet: SSteamSDK -> SZombienet: OnPolicyResponse
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725565283305> 152,898,299> [05-09-24 19:41:23.305] > ZNet: OnPolicyResponse
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725565283305> 152,898,299> [05-09-24 19:41:23.305] > ZNet: SZombienet -> SSteamSDK: BSecure
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725565283305> 152,898,299> [05-09-24 19:41:23.305] > ZNet: Zomboid Server is VAC Secure
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572963715> 160,578,709> [05-09-24 21:49:23.715] > ZNet: SSteamSDK -> SZombienet: OnSteamServersDisonnected
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572963716> 160,578,710> [05-09-24 21:49:23.716] > ZNet: OnSteamServersDisonnected 3
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979404> 160,594,398> [05-09-24 21:49:39.404] > ZNet: SSteamSDK -> SZombienet: OnSteamServersConnected
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979405> 160,594,399> [05-09-24 21:49:39.405] > ZNet: OnSteamServersConnected
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979405> 160,594,399> [05-09-24 21:49:39.405] > ZNet: SZombienet -> SSteamSDK: SetMaxPlayerCount
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979405> 160,594,399> [05-09-24 21:49:39.405] > ZNet: Public IP: 188.170.76.82
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979603> 160,594,596> [05-09-24 21:49:39.602] > ZNet: SSteamSDK -> SZombienet: OnPolicyResponse
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979603> 160,594,597> [05-09-24 21:49:39.603] > ZNet: OnPolicyResponse
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979603> 160,594,597> [05-09-24 21:49:39.603] > ZNet: SZombienet -> SSteamSDK: BSecure
-                        </span>
-            <span class="text-sm font-mono block">
-                            1725572979603> 160,594,597> [05-09-24 21:49:39.603] > ZNet: Zomboid Server is VAC Secu
-                        </span>
+            <span v-for="(log, index) in logs.getLogs" :key="index" class="text-sm font-mono block" v-html="log.toString()">
+            </span>
         </div>
     </div>
 </template>

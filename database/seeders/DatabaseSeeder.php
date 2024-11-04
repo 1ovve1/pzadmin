@@ -2,7 +2,11 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Auth\User;
+use Database\Seeders\Game\LogInstanceSeeder;
+use Database\Seeders\Game\LogSeeder;
+use Database\Seeders\Game\PlayerSeeder;
+use Database\Seeders\Game\ServerSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,10 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call([ServerSeeder::class]);
+        $this->call([ServerSeeder::class, LogInstanceSeeder::class]);
 
         if (config('app.debug')) {
-            $this->call([PlayerSeeder::class]);
+            User::factory()->create([
+                'username' => 'test',
+                'password' => config('debug.user.password'),
+            ]);
+
+            $this->call([PlayerSeeder::class, LogSeeder::class]);
         }
     }
 }

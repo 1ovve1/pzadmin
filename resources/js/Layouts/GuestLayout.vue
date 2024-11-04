@@ -4,7 +4,7 @@ import Loader from "@/Components/Loader.vue";
 import PageLayout from "@/Layouts/Base/PageLayout.vue";
 import {computed, defineProps} from "vue";
 import {onBeforeMount, reactive} from "vue";
-import {useAuthStore} from "@/store/auth";
+import {useAuthStore} from "@/store/auth/";
 import {useRouter} from "vue-router";
 
 interface GuestLayoutPropsInterface {

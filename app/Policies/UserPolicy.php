@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Auth\User;
-use Illuminate\Auth\Access\Response;
 
 class UserPolicy
 {
@@ -33,6 +32,7 @@ class UserPolicy
 
     /**
      * Determine whether the user can update the model.
+     *
      * @todo editable username and email
      */
     public function update(User $user, User $model): bool
@@ -42,6 +42,7 @@ class UserPolicy
 
     /**
      * Determine whether the user can delete the model.
+     *
      * @todo make account deletable
      */
     public function delete(User $user, User $model): bool

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Zomboid;
 
-use App\Data\ServerData;
+use App\Data\Game\ServerData;
 use App\Enums\Docker\ContainerActionEnum;
 use App\Enums\ServerEnum;
-use App\Repositories\Server\ServerRepositoryInterface;
+use App\Repositories\Game\Server\ServerRepositoryInterface;
 use App\Services\Abstract\AbstractService;
 use App\Services\Zomboid\Docker\ZomboidDockerContainer;
 

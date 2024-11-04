@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api\V1\Zomboid;
 
-use App\Data\ServerData;
 use App\Http\Controllers\Controller;
 use App\Services\Zomboid\ZomboidServiceInterface;
-use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-readonly final class ZomboidController extends Controller
+final readonly class ZomboidController extends Controller
 {
     public function __construct(
         private ZomboidServiceInterface $zomboidService

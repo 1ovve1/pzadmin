@@ -7,7 +7,7 @@ use App\Models\Auth\User;
 use Tests\TestCase;
 
 /** @link \App\Http\Controllers\Api\V1\Auth\VerifyController::hash() */
-test('test hash verify', function() {
+test('test hash verify', function () {
     $invite = Invite::factory()->create(['limit' => 1]);
 
     $this->getJson(route('v1.auth.verify.hash', ['hash' => $invite->hash]))
@@ -15,7 +15,7 @@ test('test hash verify', function() {
 });
 
 /** @link \App\Http\Controllers\Api\V1\Auth\VerifyController::hash() */
-test('test wrong hash verify', function() {
+test('test wrong hash verify', function () {
     $invite = Invite::factory()->make(['limit' => 1]);
 
     $this->getJson(route('v1.auth.verify.hash', ['hash' => $invite->hash]))
@@ -23,7 +23,7 @@ test('test wrong hash verify', function() {
 });
 
 /** @link \App\Http\Controllers\Api\V1\Auth\VerifyController::username() */
-test('test username verify', function() {
+test('test username verify', function () {
     $user = User::factory()->make();
 
     $this->getJson(route('v1.auth.verify.username', ['username' => $user->username]))
@@ -31,7 +31,7 @@ test('test username verify', function() {
 });
 
 /** @link \App\Http\Controllers\Api\V1\Auth\VerifyController::username() */
-test('test wrong username verify', function() {
+test('test wrong username verify', function () {
     $user = User::factory()->create();
 
     $this->getJson(route('v1.auth.verify.username', ['username' => $user->username]))
@@ -39,7 +39,7 @@ test('test wrong username verify', function() {
 });
 
 /** @link \App\Http\Controllers\Api\V1\Auth\VerifyController::email() */
-test('test email verify', function() {
+test('test email verify', function () {
     $user = User::factory()->make();
 
     $this->getJson(route('v1.auth.verify.email', ['email' => $user->email]))
@@ -47,7 +47,7 @@ test('test email verify', function() {
 });
 
 /** @link \App\Http\Controllers\Api\V1\Auth\VerifyController::email() */
-test('test wrong email verify', function() {
+test('test wrong email verify', function () {
     $user = User::factory()->create();
 
     $this->getJson(route('v1.auth.verify.email', ['email' => $user->email]))

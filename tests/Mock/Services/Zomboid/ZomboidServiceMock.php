@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace Tests\Mock\Services\Zomboid;
 
-use App\Data\ServerData;
-use App\Enums\Docker\ContainerActionEnum;
+use App\Data\Game\ServerData;
 use App\Enums\Docker\ContainerStatusEnum;
 use App\Enums\ServerEnum;
-use App\Repositories\Server\ServerRepositoryInterface;
+use App\Repositories\Game\Server\ServerRepositoryInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\Facades\App;
 
 class ZomboidServiceMock implements ZomboidServiceInterface
 {
     private ServerRepositoryInterface $serverRepository;
+
     private ContainerStatusEnum $defaultStatus;
+
     private ContainerStatusEnum $realStatus;
 
     public function __construct(ContainerStatusEnum $defaultStatus, ?ContainerStatusEnum $realStatus = null)
     {
         $this->serverRepository = App::make(ServerRepositoryInterface::class);
-        $this->defaultStatus  = $defaultStatus;
+        $this->defaultStatus = $defaultStatus;
         $this->realStatus = $realStatus ?? $this->defaultStatus;
     }
 
@@ -40,6 +41,7 @@ class ZomboidServiceMock implements ZomboidServiceInterface
             );
         }
     }
+
     public function doStart(): bool
     {
         $this->realStatus = ContainerStatusEnum::ACTIVE;
@@ -60,5 +62,4 @@ class ZomboidServiceMock implements ZomboidServiceInterface
 
         return true;
     }
-
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Player\PlayerServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-readonly final class PlayersController extends Controller
+final readonly class PlayersController extends Controller
 {
     public function __construct(
         private PlayerServiceInterface $playerService

@@ -6,8 +6,6 @@ namespace App\Services\Auth\Invite;
 
 use App\Data\Auth\InviteData;
 use App\Exceptions\Auth\InviteLimitException;
-use App\Exceptions\Auth\InviteNotFoundException;
-use App\Models\Auth\Invite;
 use App\Repositories\Auth\Invite\InviteRepositoryInterface;
 use App\Services\Abstract\AbstractService;
 

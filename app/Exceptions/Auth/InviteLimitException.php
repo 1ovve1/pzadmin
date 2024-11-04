@@ -4,7 +4,6 @@ namespace App\Exceptions\Auth;
 
 use App\Data\Auth\InviteData;
 use Exception;
-use JetBrains\PhpStorm\Pure;
 
 class InviteLimitException extends Exception
 {

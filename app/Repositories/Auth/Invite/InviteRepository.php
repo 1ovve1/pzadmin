@@ -40,5 +40,4 @@ class InviteRepository extends AbstractRepository implements InviteRepositoryInt
 
         return InviteData::from($inviteModel);
     }
-
 }

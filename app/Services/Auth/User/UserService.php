@@ -6,11 +6,8 @@ namespace App\Services\Auth\User;
 
 use App\Data\Auth\RegistrationData;
 use App\Data\Auth\UserData;
-use App\Models\Auth\User;
-use App\Repositories\Auth\Invite\InviteRepositoryInterface;
 use App\Repositories\Auth\User\UserRepositoryInterface;
 use App\Services\Abstract\AbstractService;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 class UserService extends AbstractService implements UserServiceInterface
 {

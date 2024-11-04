@@ -21,8 +21,7 @@ class TokenService extends AbstractService implements TokenServiceInterface
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
         private readonly TokenRepositoryInterface $tokenRepository
-    ) {
-    }
+    ) {}
 
     public function authenticate(LoginData $loginData): TokenData
     {
@@ -33,7 +32,7 @@ class TokenService extends AbstractService implements TokenServiceInterface
                 throw new IncorrectPasswordException($loginData->username);
             }
         } catch (UserNotFoundException|IncorrectPasswordException) {
-            throw new AuthenticationException();
+            throw new AuthenticationException;
         }
 
         if ($loginData->remember_me) {

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
 import {ChannelProxy} from "@/classes/Events/ChannelProxy";
-import {useServerStore} from "@/store/server";
+import {useZomboidStore} from "@/store/zomboid/";
 import {onMounted, onUnmounted} from "vue";
 import {Event} from "@/classes/Events/Event";
 
-const server = useServerStore();
+const server = useZomboidStore();
 const channelProxy = new ChannelProxy('servers.zomboid');
 
 onMounted(async () => {

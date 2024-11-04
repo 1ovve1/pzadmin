@@ -1,8 +1,8 @@
 <script setup lang="ts">
 
-import {UserInterface, useUser} from "@/store/user";
+import {UserInterface, useUserStore} from "@/store/auth/user";
 import {computed, onMounted, reactive} from "vue";
-import {useAuthStore} from "@/store/auth";
+import {useAuthStore} from "@/store/auth/";
 import {useRouter} from "vue-router";
 
 interface UsernameDropdownDataInterface {
@@ -12,7 +12,7 @@ interface UsernameDropdownDataInterface {
 const data = reactive<UsernameDropdownDataInterface>({});
 
 const router = useRouter();
-const userStore = useUser();
+const userStore = useUserStore();
 const authStore = useAuthStore();
 
 const username = computed<string>(() => {

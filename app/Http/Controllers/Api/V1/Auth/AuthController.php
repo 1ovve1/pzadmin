@@ -15,7 +15,7 @@ use App\Services\Auth\User\UserServiceInterface;
 use Illuminate\Auth\AuthenticationException;
 use Symfony\Component\HttpFoundation\Response;
 
-readonly final class AuthController extends Controller
+final readonly class AuthController extends Controller
 {
     public function __construct(
         private UserServiceInterface $userService,

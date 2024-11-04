@@ -3,7 +3,6 @@
 namespace App\Exceptions\Auth;
 
 use Exception;
-use JetBrains\PhpStorm\Pure;
 
 class InviteNotFoundException extends Exception
 {
