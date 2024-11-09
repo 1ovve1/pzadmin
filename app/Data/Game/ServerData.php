@@ -3,7 +3,7 @@
 namespace App\Data\Game;
 
 use App\Enums\Docker\ContainerStatusEnum;
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use Spatie\LaravelData\Attributes\Computed;
 use Spatie\LaravelData\Data;
 

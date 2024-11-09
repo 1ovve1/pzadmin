@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\Docker\ContainerStatusEnum;
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Models\Auth\User;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Database\Seeders\DatabaseSeeder;

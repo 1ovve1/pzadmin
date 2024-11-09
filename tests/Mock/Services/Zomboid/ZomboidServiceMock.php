@@ -6,7 +6,7 @@ namespace Tests\Mock\Services\Zomboid;
 
 use App\Data\Game\ServerData;
 use App\Enums\Docker\ContainerStatusEnum;
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Repositories\Game\Server\ServerRepositoryInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\Facades\App;

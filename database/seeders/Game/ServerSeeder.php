@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Game;
 
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Models\Game\Server;
 use Illuminate\Database\Seeder;
 

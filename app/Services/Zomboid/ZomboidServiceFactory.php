@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Zomboid;
 
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Services\Abstract\ServiceFactoryInterface;
 use App\Services\Zomboid\Docker\ZomboidDockerContainer;
 use Illuminate\Support\Facades\App;

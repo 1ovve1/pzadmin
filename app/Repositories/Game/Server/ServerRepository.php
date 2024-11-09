@@ -6,7 +6,7 @@ namespace App\Repositories\Game\Server;
 
 use App\Data\Game\ServerData;
 use App\Enums\Docker\ContainerStatusEnum;
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Models\Game\Server;
 use App\Repositories\Abstract\AbstractRepository;
 

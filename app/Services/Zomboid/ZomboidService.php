@@ -6,7 +6,7 @@ namespace App\Services\Zomboid;
 
 use App\Data\Game\ServerData;
 use App\Enums\Docker\ContainerActionEnum;
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Repositories\Game\Server\ServerRepositoryInterface;
 use App\Services\Abstract\AbstractService;
 use App\Services\Zomboid\Docker\ZomboidDockerContainer;
