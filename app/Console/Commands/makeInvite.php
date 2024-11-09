@@ -30,9 +30,9 @@ class makeInvite extends Command
         /** @var InviteServiceInterface $authService */
         $authService = App::make(InviteServiceInterface::class);
 
-        $invite = $authService->createInvite((int)$this->argument('limit'));
+        $invite = $authService->createInvite((int) $this->argument('limit'));
 
         $this->info("Invite #{$invite->id} created with {$invite->limit} limits");
-        $this->info("Link: " . url("/registration/{$invite->hash}"));
+        $this->info('Link: '.url("/registration/{$invite->hash}"));
     }
 }

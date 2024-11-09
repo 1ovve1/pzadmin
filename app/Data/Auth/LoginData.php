@@ -9,7 +9,7 @@ use Spatie\LaravelData\Data;
 class LoginData extends Data
 {
     #[Computed]
-    readonly public string $username;
+    public readonly string $username;
 
     public function __construct(
         string $username,

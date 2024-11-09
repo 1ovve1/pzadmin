@@ -8,12 +8,17 @@ use App\Repositories\Abstract\RepositoryFactoryInterface;
 use App\Repositories\Auth\Invite\InviteRepositoryInterface;
 use App\Repositories\Auth\Token\TokenRepositoryInterface;
 use App\Repositories\Auth\User\UserRepositoryInterface;
-use App\Repositories\Player\PlayerRepositoryInterface;
-use App\Repositories\Server\ServerRepositoryInterface;
+use App\Repositories\Game\Log\LogRepositoryInterface;
+use App\Repositories\Game\Log\Parser\ParserFactory;
+use App\Repositories\Game\Log\Parser\ParserFactoryInterface;
+use App\Repositories\Game\LogInstance\LogInstanceRepositoryInterface;
+use App\Repositories\Game\Player\PlayerRepositoryInterface;
+use App\Repositories\Game\Server\ServerRepositoryInterface;
 use App\Services\Abstract\ServiceFactoryInterface;
 use App\Services\Auth\Invite\InviteServiceInterface;
 use App\Services\Auth\Token\TokenServiceInterface;
 use App\Services\Auth\User\UserServiceInterface;
+use App\Services\Log\LogServiceInterface;
 use App\Services\Player\PlayerServiceInterface;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +33,7 @@ class ContainerServiceProvider extends ServiceProvider
             UserServiceInterface::class,
             TokenServiceInterface::class,
             InviteServiceInterface::class,
+            LogServiceInterface::class,
         ]);
 
         $this->bindManyRepositories([
@@ -36,7 +42,11 @@ class ContainerServiceProvider extends ServiceProvider
             InviteRepositoryInterface::class,
             PlayerRepositoryInterface::class,
             UserRepositoryInterface::class,
+            LogRepositoryInterface::class,
+            LogInstanceRepositoryInterface::class,
         ]);
+
+        $this->app->bind(ParserFactoryInterface::class, ParserFactory::class);
     }
 
     /**

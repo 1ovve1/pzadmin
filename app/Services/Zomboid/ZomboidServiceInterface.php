@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Zomboid;
 
-use App\Data\ServerData;
+use App\Data\Game\ServerData;
 
 /**
  * Service for zomboid server management

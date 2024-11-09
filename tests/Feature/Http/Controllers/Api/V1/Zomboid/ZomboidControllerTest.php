@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\Docker\ContainerStatusEnum;
-use App\Enums\ServerEnum;
+use App\Enums\Models\Game\ServerEnum;
 use App\Models\Auth\User;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Database\Seeders\DatabaseSeeder;
@@ -10,7 +10,6 @@ use Tests\Mock\Services\Zomboid\ZomboidServiceMock;
 use Tests\TestCase;
 
 /** @var TestCase $this */
-
 beforeEach(function () {
     $this->seed(DatabaseSeeder::class);
     \Illuminate\Support\Facades\App::bind(ZomboidServiceInterface::class, fn () => new ZomboidServiceMock(ContainerStatusEnum::ACTIVE, ContainerStatusEnum::DOWN));
@@ -29,9 +28,9 @@ test('zomboid server status', function () {
                 'ip' => config('zomboid.ip'),
                 'name' => ServerEnum::ZOMBOID->value,
                 'prefix' => config('app.name'),
-                'fullName' => config('app.name') . '_' . ServerEnum::ZOMBOID->value,
+                'fullName' => config('app.name').'_'.ServerEnum::ZOMBOID->value,
                 'status' => ContainerStatusEnum::ACTIVE->value,
-            ]
+            ],
         ]);
 });
 

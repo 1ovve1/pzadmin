@@ -7,17 +7,14 @@ use App\Exceptions\Auth\UserNotFoundException;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\Invite\InviteServiceInterface;
 use App\Services\Auth\User\UserServiceInterface;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
-readonly final class VerifyController extends Controller
+final readonly class VerifyController extends Controller
 {
     public function __construct(
         private InviteServiceInterface $authService,
         private UserServiceInterface $userService,
-    ) {
-
-    }
+    ) {}
 
     public function hash(string $hash): Response
     {

@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import WelcomeLayout from "@/Layouts/WelcomeLayout.vue";
-import {useServerStore} from "@/store/server";
+import {useZomboidStore} from "@/store/zomboid/";
 import {onMounted, onUnmounted, ref} from "vue";
-import {ChannelProxy} from "@/classes/Events/ChannelProxy";
-import {Event} from "@/classes/Events/Event";
-import {usePlayersStore} from "@/store/players";
+import {usePlayersStore} from "@/store/zomboid/players";
 
-const server = useServerStore();
+const server = useZomboidStore();
 const players = usePlayersStore();
 
 const loading = ref(true);

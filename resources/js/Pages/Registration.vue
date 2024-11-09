@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {RegistrationFormInterface, useAuthStore} from "@/store/auth";
+import {RegistrationFormInterface, useAuthStore} from "@/store/auth/";
 import {onBeforeMount, onMounted, reactive, ref, watch} from "vue";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import {RouteLocationNormalizedLoaded, RouteMap, useRoute, useRouter} from "vue-router";

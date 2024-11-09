@@ -17,12 +17,12 @@ services:
             - php-laravel-reverb
             - php-vite-dev
         volumes:
-            - ./../:/var/www/html
+            - "${STORAGE_APP}:/var/www/html"
+            - "${STORAGE_NGINX}/logs/:/var/log/nginx/"
             - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf:ro
             - ./nginx/config/sites-available/:/etc/nginx/sites-available/
             - ./nginx/config/sites-enabled/:/etc/nginx/sites-enabled/
             - ./nginx/config/nginxconfig.io/:/etc/nginx/nginxconfig.io/
-            - ./nginx/logs/:/var/log/nginx/
 
     fpm:
         container_name: "${APP_NAME:-pzadmin}_fpm"
@@ -30,16 +30,16 @@ services:
         networks:
             - backend
         volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:www-data
-            - ./../:/var/www/html
+            - "${DOCKER_SOCKET}:/var/run/docker.sock:www-data"
+            - "${STORAGE_APP}:/var/www/html"
+#           - "${STORAGE_FPM}/logs/fpm-php.www.log:/var/log/fpm-php.www.log:ro"
             - ./fpm/config/www.conf:/usr/local/etc/php-fom.d/www.conf
-            - ./fpm/logs/fpm-php.www.log:/var/log/fpm-php.www.log:ro
 
     php:
         container_name: "${APP_NAME:-pzadmin}_php"
         build: ./php
         volumes:
-            - ./../:/var/www/html
+            - "${STORAGE_APP}:/var/www/html"
 
     php-setup:
         container_name: "${APP_NAME:-pzadmin}_php-setup"
@@ -49,7 +49,7 @@ services:
         restart: "no"
         entrypoint: ["bash", "/root/scripts/setup.sh"]
         volumes:
-            - ./../:/var/www/html
+            - "${STORAGE_APP}:/var/www/html"
 
     php-vite-dev:
         container_name: "${APP_NAME:-pzadmin}_php-vite-dev"
@@ -61,7 +61,7 @@ services:
         restart: "always"
         entrypoint: [ "bash", "/root/scripts/vite_dev.sh", "-d", "${APP_VITE_DEV}"]
         volumes:
-            - ./../:/var/www/html
+            - "${STORAGE_APP}:/var/www/html"
 
     php-laravel-reverb:
         container_name: "${APP_NAME:-pzadmin}_php-laravel-reverb"
@@ -73,7 +73,7 @@ services:
         restart: "always"
         entrypoint: [ "bash", "/root/scripts/laravel_reverb.sh" ]
         volumes:
-            - ./../:/var/www/html
+            - "${STORAGE_APP}:/var/www/html"
 
     zomboid:
         container_name: "${APP_NAME:-pzadmin}_zomboid"
@@ -87,9 +87,9 @@ services:
             - "${ZOMBOID_RCON_PORT}:27015"
         volumes:
             # Server data
-            - ./zomboid/storage/data:/root/Zomboid
+            - "${STORAGE_ZOMBOID_DATA}:/root/Zomboid"
             # Workshop mods folder
-            - ./zomboid/storage/workshop-mods:/pz-dedicated/steamapps/workshop
+            - "${STORAGE_ZOMBOID_MODS}:/pz-dedicated/steamapps/workshop"
 
 networks:
     backend:

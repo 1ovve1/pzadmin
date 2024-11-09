@@ -5,7 +5,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 /** @var TestCase $this */
-
 beforeEach(function () {
     $this->seed(DatabaseSeeder::class);
 });

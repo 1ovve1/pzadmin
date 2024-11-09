@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {useAuthStore} from "@/store/auth";
+import {useAuthStore} from "@/store/auth/";
 import router from "@/router";
 
 const apiClient = axios.create({

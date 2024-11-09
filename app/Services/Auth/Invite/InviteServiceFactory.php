@@ -7,10 +7,9 @@ namespace App\Services\Auth\Invite;
 use App\Services\Abstract\ServiceFactoryInterface;
 use Illuminate\Support\Facades\App;
 
-
 class InviteServiceFactory implements ServiceFactoryInterface
 {
-    function get(): InviteServiceInterface
+    public function get(): InviteServiceInterface
     {
         return App::make(InviteService::class);
     }

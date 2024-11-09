@@ -4,7 +4,7 @@ namespace App\Http\Resources\V1\Servers\Zomboid;
 
 use App\Http\Resources\Abstract\AbstractResource;
 use App\Http\Resources\V1\Players\PlayersResource;
-use App\Models\Server;
+use App\Models\Game\Server;
 use Illuminate\Http\Request;
 
 /**

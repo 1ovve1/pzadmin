@@ -47,6 +47,11 @@ export default {
         players: {
             index: async <T>(): Promise<T> =>
                 apiClient.get<T>('/zomboid/players').then(({ data }) => data)
+        },
+
+        logs: {
+            console: <T>(): Promise<T> =>
+                apiClient.get<T>('/zomboid/logs/console').then(({data}) => data),
         }
     },
 }

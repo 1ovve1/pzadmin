@@ -18,5 +18,5 @@ class UserData extends Data
         public \DateTimeInterface $updated_at,
     ) {}
 
-//    public function checkPassword()
+    //    public function checkPassword()
 }

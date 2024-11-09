@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Servers\Zomboid;
 
-use App\Data\ServerData;
+use App\Data\Game\ServerData;
 use App\Events\Servers\Zomboid\StatusEvent as ZomboidStatusEvent;
 use App\Services\Zomboid\ZomboidServiceInterface;
 use Illuminate\Bus\Queueable;

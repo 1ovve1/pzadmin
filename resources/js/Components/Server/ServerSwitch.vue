@@ -1,11 +1,9 @@
 <script setup lang="ts">
 
-import {useServerStore} from "@/store/server";
-import {computed, ref} from "vue";
+import {useZomboidStore} from "@/store/zomboid/";
+import {computed} from "vue";
 
-const server = useServerStore();
-
-const disabled = ref<boolean>(false);
+const server = useZomboidStore();
 
 const title = computed<string>((): string => {
     if (disabled.value) {
@@ -17,19 +15,18 @@ const title = computed<string>((): string => {
     }
 });
 
+const disabled = computed<boolean>(() => !(server.isActive || server.isDown));
+
 async function resolveUpAndDown(): Promise<void>
 {
-    disabled.value = true;
+    const isActive = server.isActive;
+    server.setStatus('...');
 
-    if (server.isActive) {
-        server.setStatus('...');
+    if (isActive) {
         await server.down();
     } else {
-        server.setStatus('...');
         await server.start();
     }
-
-    setTimeout(() => disabled.value = false, 3000)
 }
 
 </script>

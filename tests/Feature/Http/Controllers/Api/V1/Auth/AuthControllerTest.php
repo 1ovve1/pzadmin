@@ -71,7 +71,7 @@ test('regenerate test', function () {
         ->assertJson([
             'data' => [
                 'type' => 'Bearer',
-            ]
+            ],
         ]);
     $this->assertModelMissing($newToken->accessToken);
 });
@@ -99,7 +99,7 @@ test('registration test', function () {
         ...$user->toArray(),
         'password' => $password,
         'password_confirmation' => $password,
-        'hash' => $invite->hash
+        'hash' => $invite->hash,
     ]);
 
     $this->assertTrue(User::whereUsername($user->username)->exists());
@@ -107,7 +107,7 @@ test('registration test', function () {
         ->assertJson([
             'data' => [
                 'type' => 'Bearer',
-            ]
+            ],
         ]);
 });
 
@@ -122,7 +122,7 @@ test('registration fail validation (username) test', function () {
         ...$user->toArray(),
         'password' => $password,
         'password_confirmation' => $password,
-        'hash' => $invite->hash
+        'hash' => $invite->hash,
     ]);
 
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -130,12 +130,11 @@ test('registration fail validation (username) test', function () {
             'message' => 'The username has already been taken.',
             'errors' => [
                 'username' => [
-                    'The username has already been taken.'
-                ]
-            ]
+                    'The username has already been taken.',
+                ],
+            ],
         ]);
 });
-
 
 /** @link \App\Http\Controllers\Api\V1\Auth\AuthController::registration() */
 test('registration fail validation (email) test', function () {
@@ -148,7 +147,7 @@ test('registration fail validation (email) test', function () {
         ...$user->toArray(),
         'password' => $password,
         'password_confirmation' => $password,
-        'hash' => $invite->hash
+        'hash' => $invite->hash,
     ]);
 
     $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -156,8 +155,8 @@ test('registration fail validation (email) test', function () {
             'message' => 'The email has already been taken.',
             'errors' => [
                 'email' => [
-                    'The email has already been taken.'
-                ]
-            ]
+                    'The email has already been taken.',
+                ],
+            ],
         ]);
 });
