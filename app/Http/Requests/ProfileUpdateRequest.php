@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Auth\User;
+use Illuminate\Contracts\Validation\Rule as RuleContract;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -11,7 +12,7 @@ class ProfileUpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, RuleContract|array<string>|string>
      */
     public function rules(): array
     {

@@ -5,12 +5,14 @@ namespace App\Models\Game;
 use App\Data\Game\LogInstanceData;
 use App\Exceptions\Repositories\Game\LogInstance\LogInstanceNotFoundException;
 use App\Repositories\Game\LogInstance\LogInstanceEnum;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LogInstance extends Model
 {
+    /** @use HasFactory<Factory<LogInstance>> */
     use HasFactory;
 
     protected $fillable = [
@@ -22,6 +24,9 @@ class LogInstance extends Model
         'name' => LogInstanceEnum::class,
     ];
 
+    /**
+     * @return HasMany<Log>
+     */
     public function logs(): HasMany
     {
         return $this->hasMany(Log::class);

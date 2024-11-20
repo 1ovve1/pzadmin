@@ -2,7 +2,6 @@
 
 namespace Database\Factories\Game;
 
-use App\Models\Game\LogInstance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

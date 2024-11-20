@@ -15,6 +15,11 @@ enum ServiceFormattersEnum: string
      */
     case IGNORE = 'ignore';
 
+    /**
+     * @param  array<string>  $parsedLine
+     * @param  callable(string=): (string|array<string>)  $formatterContext
+     * @return array<string>
+     */
     public function resolve(array $parsedLine, callable $formatterContext): array
     {
         switch ($this) {

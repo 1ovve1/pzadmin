@@ -8,9 +8,6 @@ trait FormattedMessageTrait
 {
     protected string $messageFormat = '';
 
-    /**
-     * @param int|string ...$args
-     */
     protected function formatMessage(int|string ...$args): string
     {
         return vsprintf($this->messageFormat, $args);

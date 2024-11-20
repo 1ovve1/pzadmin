@@ -4,12 +4,14 @@ namespace App\Models\Game;
 
 use App\Data\Game\LogData;
 use App\Exceptions\Repositories\Game\Log\LogDataNotFoundException;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Log extends Model
 {
+    /** @use HasFactory<Factory<Log>> */
     use HasFactory;
 
     protected $fillable = [
@@ -19,6 +21,9 @@ class Log extends Model
         'message',
     ];
 
+    /**
+     * @return BelongsTo<LogInstance, Log>
+     */
     public function logInstance(): BelongsTo
     {
         return $this->belongsTo(LogInstance::class);
@@ -27,7 +32,7 @@ class Log extends Model
     /**
      * @throws LogDataNotFoundException
      */
-    public static function fromLogData(LogData $logData)
+    public static function fromLogData(LogData $logData): Log
     {
         return Log::where('type', $logData->type)
             ->where('id', $logData->id)

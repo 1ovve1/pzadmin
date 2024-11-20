@@ -13,20 +13,20 @@ use Illuminate\Support\Collection;
 interface LogRepositoryInterface extends RepositoryInterface
 {
     /**
-     * @return Collection<LogData>
+     * @return Collection<int, LogData>
      */
     public function all(): Collection;
 
     /**
-     * @return Collection<LogData>
+     * @return Collection<int, LogData>
      */
     public function allByInstance(LogInstanceData $logInstanceData): Collection;
 
     /**
      * Save log instance data and return difference
      *
-     * @param  Collection<LogData>  $logDataCollection
-     * @return Collection<LogData> - new logs records that was saved
+     * @param  Collection<int, LogData>  $logDataCollection
+     * @return Collection<int, LogData> - new logs records that was saved
      */
     public function save(LogInstanceData $logInstanceData, Collection $logDataCollection): Collection;
 

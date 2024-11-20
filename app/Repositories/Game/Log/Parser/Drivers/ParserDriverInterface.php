@@ -15,7 +15,7 @@ interface ParserDriverInterface
     /**
      * callbacks that represent template_var_name => callback
      *
-     * @return array<string, callable(string): string>
+     * @return array<string, callable(string=): (string|array<string>)>
      */
     public function formatters(): array;
 }

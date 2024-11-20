@@ -59,6 +59,9 @@ class ContainerServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * @param  array<string>  $repositories
+     */
     public function bindManyRepositories(array $repositories): void
     {
         foreach ($repositories as $repositoryInterfaceName) {

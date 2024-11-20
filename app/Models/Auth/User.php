@@ -3,6 +3,7 @@
 namespace App\Models\Auth;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +12,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    /**
+     * @use HasFactory<Factory<User>>
+     * @use HasApiTokens
+     * @use Notifiable
+     */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -23,7 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'registration_access_id',
+        'invite_id',
     ];
 
     /**
@@ -53,7 +59,10 @@ class User extends Authenticatable
         ];
     }
 
-    public function registrationAccess(): HasOne
+    /**
+     * @return HasOne<Invite>
+     */
+    public function invite(): HasOne
     {
         return $this->hasOne(Invite::class);
     }

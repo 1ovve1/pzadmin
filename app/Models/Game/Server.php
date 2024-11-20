@@ -5,12 +5,14 @@ namespace App\Models\Game;
 use App\Enums\Docker\ContainerStatusEnum;
 use App\Enums\Models\Game\ServerEnum;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Server extends Model
 {
+    /** @use HasFactory<Factory<Server>> */
     use HasFactory;
 
     protected $fillable = [
@@ -34,6 +36,9 @@ class Server extends Model
         return Server::where('prefix', config('app.name'))->where('name', $enum->value);
     }
 
+    /**
+     * @return HasMany<Player>
+     */
     public function players(): HasMany
     {
         return $this->hasMany(Player::class);

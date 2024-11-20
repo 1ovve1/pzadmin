@@ -6,7 +6,6 @@ namespace App\Services\Player;
 
 use App\Repositories\Game\Player\PlayerRepositoryInterface;
 use App\Services\Abstract\AbstractService;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Pagination\AbstractPaginator;
 
 class PlayerService extends AbstractService implements PlayerServiceInterface
