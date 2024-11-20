@@ -19,7 +19,6 @@ use Tests\TestCase;
 beforeEach(function () {
     $this->logInstance = LogInstance::factory()->create([
         'name' => LogInstanceEnum::SERVER_CONSOLE->name,
-        'path' => LogInstanceEnum::SERVER_CONSOLE->path(),
     ]);
 
     // for test with filesystem scenario

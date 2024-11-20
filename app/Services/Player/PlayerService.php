@@ -7,6 +7,7 @@ namespace App\Services\Player;
 use App\Repositories\Game\Player\PlayerRepositoryInterface;
 use App\Services\Abstract\AbstractService;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Pagination\AbstractPaginator;
 
 class PlayerService extends AbstractService implements PlayerServiceInterface
 {
@@ -14,7 +15,7 @@ class PlayerService extends AbstractService implements PlayerServiceInterface
         readonly protected PlayerRepositoryInterface $playerRepository
     ) {}
 
-    public function getAllPlayersWithPagination(): Paginator
+    public function getAllPlayersWithPagination(): AbstractPaginator
     {
         return $this->playerRepository->allWithPagination();
     }

@@ -2,12 +2,14 @@
 
 namespace App\Exceptions\Auth;
 
-use Exception;
+use App\Exceptions\CheckedException;
 
-class InviteNotFoundException extends Exception
+class InviteNotFoundException extends CheckedException
 {
+    protected string $messageFormat = 'Cannot find invite with the given hash (%s)';
+
     public function __construct(string $hash)
     {
-        parent::__construct("Cannot find invite with the given hash ({$hash})");
+        parent::__construct($hash);
     }
 }

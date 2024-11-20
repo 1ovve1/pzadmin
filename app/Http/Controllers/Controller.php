@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Pagination\AbstractPaginator;
 use JsonSerializable;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract readonly class Controller
 {
-    protected function json(JsonSerializable|Paginator|array $data, int $statusCode = Response::HTTP_OK): Response
+    protected function json(JsonSerializable|AbstractPaginator|array $data, int $statusCode = Response::HTTP_OK): Response
     {
         $response = response();
 
         if ($data instanceof JsonSerializable) {
-            if ($data instanceof Paginator) {
+            if ($data instanceof AbstractPaginator) {
                 $response = $response->json($data->jsonSerialize());
             } else {
                 $response = $response->json([

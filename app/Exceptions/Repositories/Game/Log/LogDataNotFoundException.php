@@ -3,12 +3,14 @@
 namespace App\Exceptions\Repositories\Game\Log;
 
 use App\Data\Game\LogData;
-use Exception;
+use App\Exceptions\CheckedException;
 
-class LogDataNotFoundException extends Exception
+class LogDataNotFoundException extends CheckedException
 {
+    protected string $messageFormat = 'Log was not founded: %s';
+
     public function __construct(LogData $logData)
     {
-        parent::__construct('Log was not founded');
+        parent::__construct('Log was not founded: '.$logData->toJson(JSON_PRETTY_PRINT));
     }
 }

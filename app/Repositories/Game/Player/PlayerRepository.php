@@ -8,10 +8,11 @@ use App\Data\Game\PlayerData;
 use App\Models\Game\Player;
 use App\Repositories\Abstract\AbstractRepository;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Pagination\AbstractPaginator;
 
 class PlayerRepository extends AbstractRepository implements PlayerRepositoryInterface
 {
-    public function allWithPagination(): Paginator
+    public function allWithPagination(): AbstractPaginator
     {
         $players = Player::paginate();
 

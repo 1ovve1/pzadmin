@@ -2,9 +2,14 @@
 
 namespace App\Exceptions\Console\Commands;
 
-use Exception;
+use App\Exceptions\CheckedException;
 
-class FileAlreadyExistsException extends Exception
+class FileAlreadyExistsException extends CheckedException
 {
-    //
+    protected string $messageFormat = "File '%s' already exists exception";
+
+    public function __construct(string $fileName)
+    {
+        parent::__construct($this->formatMessage($fileName));
+    }
 }

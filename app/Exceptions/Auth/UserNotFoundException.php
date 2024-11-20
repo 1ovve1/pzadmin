@@ -2,14 +2,14 @@
 
 namespace App\Exceptions\Auth;
 
-use Exception;
-use JetBrains\PhpStorm\Pure;
+use App\Exceptions\CheckedException;
 
-class UserNotFoundException extends Exception
+class UserNotFoundException extends CheckedException
 {
-    #[Pure]
-    public function __construct(string $username)
+    protected string $messageFormat = "User with '%s' was not founded";
+
+    public function __construct(string $usernameOrEmail)
     {
-        parent::__construct("User with '{$username}' was not founded");
+        parent::__construct($this->formatMessage($usernameOrEmail));
     }
 }

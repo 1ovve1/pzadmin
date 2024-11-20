@@ -38,7 +38,7 @@ class TokenRepository extends AbstractRepository implements TokenRepositoryInter
         $user = User::whereId($userData->id)->first() ?? (throw new UserNotFoundException($userData->username));
 
         /** @var PersonalAccessToken $oldToken */
-        $oldToken = $user->tokens()->where('id', $tokenId)->first() ?? throw new TokenNotFoundException;
+        $oldToken = $user->tokens()->where('id', $tokenId)->first() ?? throw new TokenNotFoundException($userData);
 
         $oldToken->delete();
         $newToken = $user->createToken($userData->username, $oldToken->abilities ?? ['*'], $this->getExpiredAtTimeDefault());

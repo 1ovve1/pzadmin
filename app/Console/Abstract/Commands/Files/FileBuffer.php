@@ -20,7 +20,7 @@ readonly class FileBuffer
     public function save(string $path): void
     {
         if ($this->filesystem->isFile($path)) {
-            throw new FileAlreadyExistsException;
+            throw new FileAlreadyExistsException($path);
         }
 
         $this->filesystem->put($path, $this->buffer);

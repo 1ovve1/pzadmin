@@ -18,7 +18,6 @@ class LogFactory extends Factory
     public function definition(): array
     {
         return [
-            'log_instance_id' => LogInstance::factory()->create()->id,
             'type' => fake()->word(),
             'scope' => fake()->word(),
             'message' => fake()->text(),

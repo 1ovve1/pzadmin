@@ -3,17 +3,19 @@
 namespace App\Exceptions\Repositories\Game\LogInstance;
 
 use App\Data\Game\LogInstanceData;
+use App\Exceptions\CheckedException;
 use App\Repositories\Game\LogInstance\LogInstanceEnum;
-use Exception;
 
-class LogInstanceNotFoundException extends Exception
+class LogInstanceNotFoundException extends CheckedException
 {
+    protected string $messageFormat = 'Log instance not founded for "%s"';
+
     public function __construct(LogInstanceData|LogInstanceEnum $logInstanceEnum)
     {
         if ($logInstanceEnum instanceof LogInstanceData) {
             $logInstanceEnum = $logInstanceEnum->name;
         }
 
-        parent::__construct("Log instance not founded for \"{$logInstanceEnum->path()}\"");
+        parent::__construct($this->formatMessage($logInstanceEnum->path()));
     }
 }

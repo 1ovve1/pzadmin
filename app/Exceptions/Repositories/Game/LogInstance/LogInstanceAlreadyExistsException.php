@@ -2,13 +2,15 @@
 
 namespace App\Exceptions\Repositories\Game\LogInstance;
 
+use App\Exceptions\CheckedException;
 use App\Repositories\Game\LogInstance\LogInstanceEnum;
-use Exception;
 
-class LogInstanceAlreadyExistsException extends Exception
+class LogInstanceAlreadyExistsException extends CheckedException
 {
+    protected string $messageFormat = 'Log instance already exists by given credentials: { name: %s, path: %s })';
+
     public function __construct(LogInstanceEnum $logInstanceEnum)
     {
-        parent::__construct("Log instance already exists by given credentials: { name: {$logInstanceEnum->name}, path: {$logInstanceEnum->path()} })");
+        parent::__construct($this->formatMessage($logInstanceEnum->name, $logInstanceEnum->path()));
     }
 }

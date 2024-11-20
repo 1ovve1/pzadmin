@@ -17,8 +17,6 @@ class LogInstanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->word(),
-            'path' => fake()->filePath(),
             'checksum' => fake()->md5(),
         ];
     }
