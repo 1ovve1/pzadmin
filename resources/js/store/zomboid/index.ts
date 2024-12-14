@@ -23,7 +23,9 @@ export const useZomboidStore = defineStore("server", {
     },
     actions: {
         async fetch(): Promise<void> {
-            this.$state = await apiClient.zomboid.index<ServerStateInterface>();
+            if (this.isEmpty) {
+                this.$state = await apiClient.zomboid.index<ServerStateInterface>();
+            }
         },
         async start(): Promise<void> {
             await apiClient.zomboid.start();

@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api\V1\Zomboid;
 
 use App\Http\Controllers\Controller;
-use App\Services\Zomboid\ZomboidServiceInterface;
+use App\Services\Game\Log\LogServiceInterface;
+use App\Services\Game\Zomboid\ZomboidServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class ZomboidController extends Controller
 {
     public function __construct(
-        private ZomboidServiceInterface $zomboidService
+        private ZomboidServiceInterface $zomboidService,
+        private LogServiceInterface $logService
     ) {}
 
     public function index(): Response
@@ -21,6 +23,7 @@ final readonly class ZomboidController extends Controller
 
     public function start(): Response
     {
+        $this->logService->resetLogsInDatabase();
         $this->zomboidService->doStart();
 
         return $this->accepted();
@@ -36,6 +39,7 @@ final readonly class ZomboidController extends Controller
     public function restart(): Response
     {
         $this->zomboidService->doRestart();
+        $this->logService->resetLogsInDatabase();
 
         return $this->accepted();
     }

@@ -20,6 +20,7 @@ class ZomboidServerResource extends AbstractResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'ip' => config('zomboid.ip'),
             'port' => config('zomboid.port'),
             'status' => $this->status,

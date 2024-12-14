@@ -16,8 +16,10 @@ export const useZomboidLogsStore = defineStore('logs', {
 
             this.$patch(logs);
         },
-        setData(logs: ZomboidLogStoreInterface) {
-            this.$patch(logs);
+        setData(logs: ZomboidLogInterface[]) {
+            this.$patch({
+                data: logs
+            });
         }
     }
 });

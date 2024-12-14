@@ -1,8 +1,8 @@
-import Welcome from "@/Pages/Welcome.vue";
-import Login from "@/Pages/Login.vue";
-import Dashboard from "@/Pages/Admin/Dashboard.vue";
+import Welcome from "@/app/Pages/Welcome.vue";
+import Login from "@/app/Pages/Auth/Login.vue";
+import Dashboard from "@/app/Pages/Admin/Dashboard.vue";
 import {RouteRecordRaw, RouteRecordRedirect, RouteRecordRedirectOption} from "vue-router";
-import Registration from "@/Pages/Registration.vue";
+import Registration from "@/app/Pages/Auth/Registration.vue";
 
 const routes: Readonly<RouteRecordRaw[]> = [
     {

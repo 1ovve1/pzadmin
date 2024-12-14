@@ -18,9 +18,9 @@ use App\Services\Abstract\ServiceFactoryInterface;
 use App\Services\Auth\Invite\InviteServiceInterface;
 use App\Services\Auth\Token\TokenServiceInterface;
 use App\Services\Auth\User\UserServiceInterface;
-use App\Services\Log\LogServiceInterface;
-use App\Services\Player\PlayerServiceInterface;
-use App\Services\Zomboid\ZomboidServiceInterface;
+use App\Services\Game\Log\LogServiceInterface;
+use App\Services\Game\Player\PlayerServiceInterface;
+use App\Services\Game\Zomboid\ZomboidServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class ContainerServiceProvider extends ServiceProvider
